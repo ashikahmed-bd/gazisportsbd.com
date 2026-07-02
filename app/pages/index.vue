@@ -397,20 +397,19 @@ const instagram = [
             </div>
           </div>
 
-          <form class="flex w-full max-w-lg gap-3">
+          <form class="relative w-full max-w-xl">
             <input
               type="email"
               placeholder="Enter your email address..."
-              class="h-12 flex-1 rounded-lg border border-white/20 bg-white px-4 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-white"
+              class="h-12 w-full rounded-lg border border-white/20 bg-white pl-4 pr-32 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-white"
             />
 
             <button
               type="submit"
-              class="inline-flex h-12 items-center gap-2 rounded-lg bg-gray-900 px-6 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-black"
+              class="absolute right-1 top-1 flex h-10 items-center gap-2 rounded-md bg-gray-900 px-4 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-black"
             >
               <UIcon name="i-lucide-send" class="h-4 w-4" />
-
-              Subscribe
+              <span class="hidden md:inline">Subscribe</span>
             </button>
           </form>
         </div>
