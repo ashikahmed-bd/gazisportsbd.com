@@ -9,6 +9,18 @@ export const useBrandStore = defineStore("brand", {
   getters: {},
 
   actions: {
+    async all() {
+      const { $api } = useNuxtApp();
+      try {
+        const response = await $api(`/api/v1/brands`);
+        this.brands = response;
+        return response;
+      } catch (error) {
+        this.errors = error?.response?._data?.errors;
+        throw error;
+      }
+    },
+
     async getBrands() {
       const { $api } = useNuxtApp();
       try {
@@ -16,8 +28,8 @@ export const useBrandStore = defineStore("brand", {
         this.brands = response;
         return response;
       } catch (error) {
-        this.errors = error?.response?._data?.errors
-        throw error
+        this.errors = error?.response?._data?.errors;
+        throw error;
       }
     },
 
@@ -35,8 +47,8 @@ export const useBrandStore = defineStore("brand", {
 
         return response;
       } catch (error) {
-        this.errors = error?.response?._data?.errors
-        throw error
+        this.errors = error?.response?._data?.errors;
+        throw error;
       }
     },
   },

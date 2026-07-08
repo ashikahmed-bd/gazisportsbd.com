@@ -23,6 +23,13 @@ export const useAuthStore = defineStore("auth", {
           method: "POST",
           body: payload,
         });
+
+        const authToken = useCookie("auth_token", {
+          maxAge: 60 * 60 * 24 * 7,
+          sameSite: "lax",
+        });
+
+        authToken.value = response.token;
         this.token = response.token;
         this.user = response.user;
 

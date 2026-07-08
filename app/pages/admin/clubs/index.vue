@@ -1,3 +1,133 @@
-<script lang="ts" setup></script>
+<script setup>
+definePageMeta({
+  layout: "admin",
+});
 
-<template></template>
+const clubStore = useClubStore();
+const { clubs } = storeToRefs(clubStore);
+
+const loadClubs = async () => {
+  await clubStore.all();
+};
+
+onMounted(() => {
+  loadClubs();
+});
+</script>
+
+<template>
+  <main class="space-y-6">
+    <div class="card">
+      <div class="card__header">
+        <div
+          class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"
+        >
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight text-gray-900">
+              Clubs
+            </h1>
+
+            <p class="mt-1 text-sm text-gray-500">Manage all football clubs.</p>
+          </div>
+
+          <div class="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
+            <div class="relative">
+              <input
+                type="text"
+                placeholder="Search leagues..."
+                class="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 pr-10 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:w-72"
+              />
+
+              <svg
+                class="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+
+            <NuxtLink to="/admin/clubs/create" class="base__button">
+              Add club
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
+
+      <div class="card__body">
+        <div
+          class="overflow-hidden rounded-xl border border-border overflow-x-auto"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Logo</th>
+                <th>Country</th>
+                <th>Founded</th>
+                <th>Stadium</th>
+                <th>Status</th>
+                <th class="text-right">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr v-for="league in clubs.data" :key="league.id">
+                <td>
+                  <h3 class="font-semibold text-gray-900">
+                    {{ league.name }}
+                  </h3>
+                  <span class="text-xs font-medium">
+                    {{ league.slug }}
+                  </span>
+                </td>
+
+                <td>
+                  <NuxtImg
+                    :src="league.logo_url"
+                    :alt="league.name"
+                    class="size-12 rounded object-cover"
+                  />
+                </td>
+                <td>
+                  {{ league.country || "-" }}
+                </td>
+                <td>
+                  {{ league.founded_year || "-" }}
+                </td>
+                <td>
+                  {{ league.stadium || "-" }}
+                </td>
+                <td>
+                  <span
+                    :class="
+                      league.active
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-red-100 text-red-700'
+                    "
+                    class="rounded-full px-3 py-1 text-xs font-semibold"
+                  >
+                    {{ league.active ? "Active" : "Inactive" }}
+                  </span>
+                </td>
+
+                <td>
+                  <div class="flex justify-end gap-2">
+                    <button class="action__edit">Edit</button>
+                    <button class="action__delete">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</template>

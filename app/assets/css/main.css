@@ -2,37 +2,141 @@
 @import "@nuxt/ui";
 
 @theme {
-    /* Brand */
-    --color-primary: #195A31;
-    --color-primary-hover: #144A29;
+  /* Brand */
+  --color-primary: #195a31;
+  --color-primary-hover: #144a29;
 
-    --color-accent: #2E7D46;
-    --color-accent-hover: #25663A;
+  --color-accent: #2e7d46;
+  --color-accent-hover: #25663a;
 
-    /* Background */
-    --color-background: #F8FAF8;
-    --color-surface: #FFFFFF;
+  /* Background */
+  --color-background: #f8faf8;
+  --color-surface: #ffffff;
 
-    /* Border */
-    --color-border: #E2E8E3;
+  /* Border */
+  --color-border: #e2e8e3;
 
-    /* Status */
-    --color-success: #2E7D46;
-    --color-warning: #F59E0B;
-    --color-danger: #DC2626;
-    --color-info: #2563EB;
+  /* Status */
+  --color-success: #2e7d46;
+  --color-warning: #f59e0b;
+  --color-danger: #dc2626;
+  --color-info: #2563eb;
 
-    /* Typography */
-    --color-title: #16261C;
-    --color-body: #374151;
-    --color-muted: #6B7280;
+  /* Typography */
+  --color-title: #16261c;
+  --color-body: #374151;
+  --color-muted: #6b7280;
 
-    /* Base */
-    --color-black: #111827;
-    --color-dark: #0F172A;
-    --color-white: #FFFFFF;
+  /* Base */
+  --color-black: #111827;
+  --color-dark: #0f172a;
+  --color-white: #ffffff;
 
-    /* Fonts */
-    --font-sans: "Inter", sans-serif;
-    --font-bangla: "Baloo Da 2", sans-serif;
+  /* Fonts */
+  --font-sans: "Inter", sans-serif;
+  --font-bangla: "Baloo Da 2", sans-serif;
+}
+
+@layer base {
+  table {
+    @apply w-full border-collapse overflow-hidden rounded-xl bg-white shadow-sm;
+  }
+
+  thead {
+    @apply bg-white text-gray-900 border-b border-border;
+  }
+
+  thead th {
+    @apply px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider;
+  }
+
+  tbody {
+    @apply divide-y divide-gray-200;
+  }
+
+  tbody tr {
+    @apply transition duration-200 hover:bg-gray-50;
+  }
+
+  tbody td {
+    @apply px-6 py-4 text-sm text-gray-700 whitespace-nowrap;
+  }
+
+  tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  caption {
+    @apply mb-4 text-left text-xl font-bold text-gray-800;
+  }
+
+  tfoot {
+    @apply bg-gray-50 font-medium text-gray-700;
+  }
+
+  tfoot td {
+    @apply px-6 py-4;
+  }
+}
+
+@layer components {
+  .scrollbar::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    background-color: transparent;
+    transition:
+      width 0.25s ease,
+      height 0.25s ease;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 211, 243, 0.4);
+    border-radius: 10px;
+    transition: background-color 0.25s ease;
+  }
+
+  .scrollbar:hover::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .scrollbar:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 211, 243, 0.9);
+  }
+
+  .action__edit {
+    @apply bg-blue-100 text-blue-700 hover:bg-blue-600 hover:text-white flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition duration-200;
+  }
+
+  .action__delete {
+    @apply bg-red-100 text-red-700 hover:bg-red-600 hover:text-white flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition duration-200;
+  }
+
+  .base__button {
+    @apply flex items-center justify-center gap-2 rounded bg-primary px-6 py-2 text-sm font-semibold text-white transition hover:bg-primary active:scale-95;
+  }
+
+  .card {
+    @apply bg-white rounded-xl p-4;
+  }
+
+  .card__header {
+    @apply px-4 py-3 border-b border-border flex items-center justify-between;
+  }
+
+  .card__title {
+    @apply text-lg font-semibold text-gray-800;
+  }
+
+  .card__subtitle {
+    @apply text-gray-500;
+  }
+
+  .card__body {
+    @apply p-4 text-gray-700 relative overflow-x-auto;
+  }
 }

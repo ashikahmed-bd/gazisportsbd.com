@@ -25,7 +25,7 @@ const modelValue = computed({
     <select
       v-model="modelValue"
       :class="[
-        'w-full border rounded px-3 py-2 focus:outline-cyan-500 focus:ring focus:ring-cyan-200',
+        'w-full border rounded px-3 py-2 focus:outline-primary ',
         error ? 'border-red-500' : 'border-gray-300',
       ]"
     >

@@ -1,32 +1,34 @@
 export default defineNuxtPlugin(() => {
   const api = $fetch.create({
-    baseURL: "https://sports.buyzin.com", // https://sports.buyzin.com http://127.0.0.1:8000
+    baseURL: "http://127.0.0.1:8000", // https://sports.buyzin.com http://127.0.0.1:8000
 
-    async onRequest({ options }) {
-      const authStore = useAuthStore();
+    onRequest({ options }) {
+      const authToken = useCookie("auth_token");
       const cartToken = useCartToken();
 
-      options.headers = {
-        ...options.headers,
+      options.headers = new Headers(options.headers);
 
-        Accept: "application/json",
-        "X-Source": "Web",
-        "X-Cart-Token": cartToken.value,
+      options.headers.set("X-Source", "Web");
+      options.headers.set("Accept", "application/json");
+      options.headers.set("X-Cart-Token", cartToken.value);
 
-        ...(authStore.token && {
-          Authorization: `Bearer ${authStore.token}`,
-        }),
-      };
+      if (authToken.value) {
+        options.headers.set("Authorization", `Bearer ${authToken.value}`);
+      }
     },
 
     async onResponseError({ response }) {
-      if (response.status === 401) {
+      if (response?.status === 401) {
         const authStore = useAuthStore();
+        const authToken = useCookie("auth_token");
 
+        authToken.value = null;
         authStore.$reset();
 
-        return navigateTo("/auth/login");
+        navigateTo("/auth/login", { replace: true });
       }
+
+      console.error("API Error:", response);
     },
   });
 

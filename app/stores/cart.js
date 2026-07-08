@@ -47,7 +47,7 @@ export const useCartStore = defineStore("cart", {
         const response = await $api(`/api/cart/items/${item.id}`, {
           method: "PUT",
           body: {
-            quantity: item.quantity + 1,
+            quantity: Number(item.quantity) + 1,
           },
         });
 
@@ -73,7 +73,7 @@ export const useCartStore = defineStore("cart", {
         const response = await $api(`/api/cart/items/${item.id}`, {
           method: "PUT",
           body: {
-            quantity: item.quantity - 1,
+            quantity: Number(item.quantity) - 1,
           },
         });
 
@@ -115,6 +115,20 @@ export const useCartStore = defineStore("cart", {
         return response;
       } catch (error) {
         this.errors = error?.response?._data?.errors || {};
+        throw error;
+      }
+    },
+
+    async buyNow(payload) {
+      const { $api } = useNuxtApp();
+      try {
+        const response = await $api("/api/cart", {
+          method: "POST",
+          body: payload,
+        });
+        return response.data;
+      } catch (error) {
+        this.errors = error?.response?._data?.errors;
         throw error;
       }
     },

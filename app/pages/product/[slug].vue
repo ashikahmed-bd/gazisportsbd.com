@@ -16,16 +16,37 @@ const {
   },
 );
 
+const quantity = ref(1);
+
+const increaseQuantity = () => {
+  quantity.value++;
+};
+
+const decreaseQuantity = () => {
+  if (quantity.value > 1) {
+    quantity.value--;
+  }
+};
 const selectedOptions = reactive({});
 
 const addToCart = async (product) => {
   await cartStore.add({
     product_id: product.id,
-    quantity: 1,
+    quantity: Number(quantity.value),
     options: { ...selectedOptions },
   });
 
   navigateTo("/cart");
+};
+
+const buyNow = async (product) => {
+  await cartStore.buyNow({
+    product_id: product.id,
+    quantity: Number(quantity.value),
+    options: { ...selectedOptions },
+  });
+
+  navigateTo("/checkout");
 };
 </script>
 
@@ -210,33 +231,64 @@ const addToCart = async (product) => {
                 </div>
               </div>
 
-              <div class="flex flex-col sm:flex-row gap-3">
-                <button
-                  @click="addToCart(product)"
-                  :disabled="!product.in_stock"
-                  class="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 active:bg-red-800 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-3.5 rounded-xl transition-colors shadow-sm"
+              <div class="space-y-4">
+                <div
+                  class="flex items-center justify-between rounded-xl border border-border bg-gray-50 px-4 py-3"
                 >
-                  <svg
-                    class="w-5 h-5 shrink-0"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+                  <span class="text-sm font-medium text-body"> Quantity </span>
+
+                  <div
+                    class="flex items-center overflow-hidden rounded border border-border bg-white"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                    <button
+                      type="button"
+                      @click="quantity > 1 && quantity--"
+                      :disabled="quantity <= 1 || !product.in_stock"
+                      class="flex h-11 w-11 items-center justify-center text-gray-600 transition hover:bg-gray-100 hover:text-black disabled:opacity-40"
+                    >
+                      <UIcon name="i-lucide-minus" class="size-4" />
+                    </button>
+
+                    <input
+                      v-model.number="quantity"
+                      type="number"
+                      min="1"
+                      :disabled="!product.in_stock"
+                      class="h-11 w-14 border-x border-gray-200 text-center text-base font-bold outline-none"
                     />
-                  </svg>
-                  ADD TO CART
-                </button>
-                <button
-                  :disabled="!product.in_stock"
-                  class="flex-1 bg-gray-900 hover:bg-gray-800 active:bg-gray-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-3.5 rounded-xl transition-colors"
-                >
-                  BUY NOW
-                </button>
+
+                    <button
+                      type="button"
+                      @click="quantity++"
+                      :disabled="!product.in_stock"
+                      class="flex h-11 w-11 items-center justify-center text-gray-600 transition hover:bg-gray-100 hover:text-black disabled:opacity-40"
+                    >
+                      <UIcon name="i-lucide-plus" class="size-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <BaseButton
+                    @click="addToCart(product)"
+                    :loading="cartStore.loading"
+                    :disabled="!product.in_stock"
+                    class="rounded text-base font-semibold transition hover:scale-105"
+                  >
+                    <UIcon name="i-lucide-shopping-cart" class="mr-2 size-5" />
+                    Add to Cart
+                  </BaseButton>
+
+                  <button
+                    type="button"
+                    @click="buyNow(product)"
+                    :disabled="!product.in_stock"
+                    class="flex items-center justify-center rounded bg-gray-900 text-base font-semibold text-white transition hover:bg-black hover:scale-105 disabled:bg-gray-300"
+                  >
+                    <UIcon name="i-lucide-zap" class="mr-2 size-5" />
+                    Buy Now
+                  </button>
+                </div>
               </div>
             </div>
           </div>
