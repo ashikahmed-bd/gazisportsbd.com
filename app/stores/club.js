@@ -20,5 +20,17 @@ export const useClubStore = defineStore("club", {
         throw error;
       }
     },
+
+    async search() {
+      const { $api } = useNuxtApp();
+      try {
+        const response = await $api(`/api/v1/search/clubs`);
+        this.clubs = response;
+        return response;
+      } catch (error) {
+        this.errors = error?.response?._data?.errors;
+        throw error;
+      }
+    },
   },
 });

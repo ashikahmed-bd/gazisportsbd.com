@@ -1,6 +1,6 @@
 export default defineNuxtPlugin(() => {
   const api = $fetch.create({
-    baseURL: "http://127.0.0.1:8000", // https://sports.buyzin.com http://127.0.0.1:8000
+    baseURL: "https://sports.buyzin.com", // https://sports.buyzin.com http://127.0.0.1:8000
 
     onRequest({ options }) {
       const authToken = useCookie("auth_token");

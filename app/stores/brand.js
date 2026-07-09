@@ -21,6 +21,18 @@ export const useBrandStore = defineStore("brand", {
       }
     },
 
+    async search() {
+      const { $api } = useNuxtApp();
+      try {
+        const response = await $api(`/api/v1/search/brands`);
+        this.brands = response;
+        return response;
+      } catch (error) {
+        this.errors = error?.response?._data?.errors;
+        throw error;
+      }
+    },
+
     async getBrands() {
       const { $api } = useNuxtApp();
       try {

@@ -19,44 +19,29 @@ onMounted(() => {
   <main class="space-y-6">
     <div class="card">
       <div class="card__header">
-        <div
-          class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"
-        >
-          <div>
-            <h1 class="text-2xl font-bold tracking-tight text-gray-900">
-              Clubs
-            </h1>
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-gray-900">Clubs</h1>
 
-            <p class="mt-1 text-sm text-gray-500">Manage all football clubs.</p>
+          <p class="mt-1 text-sm text-gray-500">Manage all football clubs.</p>
+        </div>
+
+        <div class="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Search leagues..."
+              class="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 pr-10 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:w-72"
+            />
+
+            <UIcon
+              name="i-lucide-search"
+              class="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
+            />
           </div>
 
-          <div class="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
-            <div class="relative">
-              <input
-                type="text"
-                placeholder="Search leagues..."
-                class="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 pr-10 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:w-72"
-              />
-
-              <svg
-                class="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
-
-            <NuxtLink to="/admin/clubs/create" class="base__button">
-              Add club
-            </NuxtLink>
-          </div>
+          <NuxtLink to="/admin/clubs/create" class="base__button">
+            Add club
+          </NuxtLink>
         </div>
       </div>
 

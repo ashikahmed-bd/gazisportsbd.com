@@ -4,6 +4,7 @@ definePageMeta({
 });
 
 const toast = useToast();
+const route = useRoute();
 const productStore = useProductStore();
 const categoryStore = useCategoryStore();
 const brandStore = useBrandStore();
@@ -26,38 +27,30 @@ const loadClubs = async () => {
 };
 
 const form = reactive({
-  category_id: "1",
-  brand_id: "1",
-  club_id: "1",
+  category_id: "",
+  brand_id: "",
+  club_id: "",
 
-  name: "Real Madrid Home Jersey 2025/26",
-  slug: "real-madrid-home-jersey-2025-26",
+  name: "",
+  slug: "",
 
-  highlights: `Official home jersey design
-Breathable moisture-wicking fabric
-Lightweight and comfortable fit
-Premium heat-pressed club crest
-Suitable for match day and casual wear`,
-
-  description: `Support Real Madrid in style with the official-inspired 2025/26 Home Jersey. Crafted from lightweight, breathable fabric, this jersey keeps you cool and comfortable whether you're playing football or cheering from the stands. Featuring the iconic white design with premium detailing, it's perfect for every Madridista.`,
-
+  highlights: "",
+  description: "",
   options: [],
-  base_price: "1800",
-  price: "1500",
-  stock: "100",
+  base_price: "",
+  price: "",
+  stock: "",
 
-  gender: "unisex",
+  gender: "",
+  cover: "",
+  gallery: "",
 
   featured: true,
   active: true,
 
-  meta_title: "Real Madrid Home Jersey 2025/26 | Buyzin Sports",
-
-  meta_keywords:
-    "Real Madrid Jersey, Football Jersey, Soccer Jersey, Home Kit 2025, Adidas Jersey, Buyzin Sports",
-
-  meta_description:
-    "Buy the Real Madrid Home Jersey 2025/26 at the best price in Bangladesh. Premium quality football jersey with breathable fabric, available in all sizes.",
+  meta_title: "",
+  meta_keywords: "",
+  meta_description: "",
 });
 
 const addOption = () => {
@@ -87,13 +80,67 @@ const submit = async () => {
     ),
   };
 
-  const response = await productStore.store(payload);
+  const response = await productStore.update(route.params.id, payload);
+
   toast.add({
     title: response.message,
   });
 };
 
-onMounted(() => {
+const media = reactive({
+  cover: null,
+  gallery: [],
+});
+
+const mediaUpload = async () => {
+  const payload = new FormData();
+
+  if (media.cover) {
+    payload.append("cover", media.cover);
+  }
+
+  media.gallery.forEach((file) => {
+    payload.append("gallery[]", file);
+  });
+
+  const response = await productStore.media(route.params.id, payload);
+
+  toast.add({
+    title: response.message,
+  });
+
+  loadProduct(route.params.id);
+};
+
+const loadProduct = async (id) => {
+  const product = await productStore.show(id);
+
+  form.category_id = product.category.id;
+  form.brand_id = product.brand.id;
+  form.club_id = product.club.id;
+
+  form.name = product.name;
+  form.slug = product.slug;
+
+  form.highlights = product.highlights;
+  form.description = product.description;
+  form.options = Object.entries(product.options).map(([name, values]) => ({
+    name,
+    values: values.join(", "),
+  }));
+  form.base_price = product.base_price;
+  form.price = product.price;
+  form.stock = product.stock;
+  form.gender = product.gender;
+  form.cover = product.cover_url;
+  form.gallery = product.gallery;
+  form.meta_title = product.meta_title;
+  form.meta_description = product.meta_description;
+  form.meta_keywords = product.meta_keywords;
+};
+
+onMounted(async () => {
+  loadProduct(route.params.id);
   loadCategories();
   loadBrands();
   loadClubs();
@@ -118,9 +165,8 @@ onMounted(() => {
       </div>
 
       <div class="card__body">
-        <form @submit.prevent="submit" class="grid gap-6 lg:grid-cols-3">
+        <div class="grid gap-6 lg:grid-cols-3">
           <div class="space-y-6 lg:col-span-2">
-            <h2 class="mb-3 text-lg font-semibold">Product Information</h2>
             <div class="w-full">
               <BaseInput
                 label="Name"
@@ -181,7 +227,7 @@ onMounted(() => {
                         v-model="option.name"
                         class="h-10 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm outline-none transition focus:border-primary"
                       >
-                        <option value="" disabled>Select Option</option>
+                        <option value="">Select Option</option>
                         <option value="size">Size</option>
                         <option value="color">Color</option>
                         <option value="material">Material</option>
@@ -249,8 +295,6 @@ onMounted(() => {
           </div>
 
           <div class="space-y-5">
-            <h2 class="mb-3 text-lg font-semibold">Pricing</h2>
-
             <div class="block">
               <BaseInput
                 label="Base Price"
@@ -342,13 +386,81 @@ onMounted(() => {
               </div>
 
               <div class="mt-5">
-                <BaseButton :loading="productStore.loading" class="w-full"
+                <BaseButton
+                  @click.prevent="submit"
+                  :loading="productStore.loading"
+                  class="w-full"
                   >Save Changes</BaseButton
                 >
               </div>
             </div>
+
+            <div class="rounded-xl border border-border bg-white p-4">
+              <div class="flex items-center justify-between py-2.5">
+                <div>
+                  <h2 class="text-lg font-semibold text-gray-900">
+                    Product Images
+                  </h2>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Upload cover and gallery images for this product
+                  </p>
+                </div>
+              </div>
+
+              <div class="grid gap-6 lg:grid-cols-2">
+                <div class="space-y-3">
+                  <UFileUpload
+                    v-model="media.cover"
+                    icon="i-lucide-image"
+                    label="Cover"
+                    accept="image/*"
+                    class="w-full"
+                  />
+                  <div
+                    class="flex justify-center rounded border border-dashed border-border"
+                  >
+                    <img
+                      :src="form.cover"
+                      alt="Cover image"
+                      class="w-full rounded bg-white object-cover"
+                    />
+                  </div>
+                </div>
+
+                <div class="space-y-3">
+                  <UFileUpload
+                    v-model="media.gallery"
+                    multiple
+                    label="Gallery"
+                    icon="i-lucide-images"
+                    accept="image/*"
+                    class="w-full"
+                  />
+
+                  <div class="grid grid-cols-2 gap-2 rounded">
+                    <img
+                      v-for="(image, index) in form.gallery"
+                      :key="index"
+                      :src="image"
+                      alt="Gallery image"
+                      class="aspect-square w-full object-cover rounded border border-border border-dashed"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-6 flex justify-end border-t border-border pt-4">
+                <BaseButton
+                  @click.prevent="mediaUpload"
+                  :loading="productStore.loading"
+                  class="min-w-40"
+                >
+                  Upload Media
+                </BaseButton>
+              </div>
+            </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </main>

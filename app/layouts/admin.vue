@@ -1,159 +1,135 @@
 <script setup>
-import { ref } from "vue";
-
 const sidebarOpen = ref(false);
-
-const menus = [
-  {
-    name: "Dashboard",
-    icon: "i-heroicons-home",
-    to: "/admin/dashboard",
-  },
-  {
-    name: "Brands",
-    icon: "i-heroicons-tag",
-    to: "/admin/brands",
-  },
-  {
-    name: "Leagues",
-    icon: "i-heroicons-trophy",
-    to: "/admin/leagues",
-  },
-  {
-    name: "Clubs",
-    icon: "i-heroicons-building-storefront",
-    to: "/admin/clubs",
-  },
-  {
-    name: "Products",
-    icon: "i-heroicons-shopping-bag",
-    to: "/admin/products",
-  },
-  {
-    name: "Orders",
-    icon: "i-heroicons-clipboard-document-list",
-    to: "/admin/orders",
-  },
-];
+const authStore = useAuthStore();
 </script>
 
 <template>
-  <div class="h-screen">
+  <div class="bg-gray-100">
     <header
-      class="sticky top-0 bg-white border-b border-border flex items-center justify-between px-4 py-3.5 z-50"
+      class="fixed inset-x-0 top-0 z-50 flex h-16 items-center justify-between border-b border-border bg-white px-4"
     >
       <div class="flex items-center gap-3">
-        <button class="lg:hidden" @click="sidebarOpen = true">
-          <UIcon name="i-heroicons-bars-3" class="w-7 h-7" />
+        <button class="lg:hidden" @click="sidebarOpen = !sidebarOpen">
+          <UIcon
+            :name="sidebarOpen ? 'i-heroicons-x-mark' : 'i-heroicons-bars-3'"
+            class="h-7 w-7"
+          />
         </button>
-
-        <a href="/admin/dashboard">
+        <NuxtLink to="/admin/dashboard">
           <NuxtImg src="/logo.png" alt="logo" class="h-10" />
-        </a>
+        </NuxtLink>
       </div>
+      <div class="flex items-center gap-3">
+        <NuxtImg
+          :src="authStore.user?.photo_url || '/images/avatar.png'"
+          :alt="authStore.user?.name"
+          class="h-10 w-10 rounded-full border border-dashed object-cover"
+        />
 
-      <div class="flex items-center gap-2">
-        <div class="w-9 h-9 rounded-full bg-gray-300"></div>
+        <div class="min-w-0">
+          <h3 class="truncate text-sm font-semibold text-gray-900">
+            {{ authStore.user?.name }}
+          </h3>
+
+          <p class="text-xs capitalize text-gray-500">
+            {{ authStore.user?.role }}
+          </p>
+        </div>
       </div>
     </header>
 
-    <Transition name="fade">
-      <div
-        v-if="sidebarOpen"
-        class="fixed inset-0 bg-black/40 z-40 lg:hidden"
-        @click="sidebarOpen = false"
-      />
-    </Transition>
+    <div class="flex pt-16">
+      <aside
+        :class="[
+          'fixed left-0 top-16 z-50 h-[calc(100vh-4rem)] w-64 border-r border-border bg-white transition-transform duration-300',
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full',
+          'lg:translate-x-0',
+        ]"
+      >
+        <div class="h-full overflow-y-auto p-4">
+          <nav class="space-y-2">
+            <NuxtLink
+              to="/admin/dashboard"
+              active-class="bg-gray-100 text-primary font-medium"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"
+            >
+              <UIcon name="i-heroicons-home" class="h-5 w-5" />
+              Dashboard
+            </NuxtLink>
 
-    <aside
-      :class="[
-        'fixed top-16 z-40 left-0 h-[calc(100vh-4rem)] w-64 bg-white transition-transform duration-300',
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full',
-        'lg:translate-x-0',
-      ]"
-    >
-      <div class="flex-1 overflow-y-auto p-4">
-        <nav class="space-y-2">
-          <NuxtLink
-            href="/admin/dashboard"
-            active-class="bg-gray-100 font-medium text-primary"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100"
-          >
-            <UIcon name="i-heroicons-home" class="w-5 h-5" />
-            Dashboard
-          </NuxtLink>
+            <NuxtLink
+              to="/admin/brands"
+              active-class="bg-gray-100 text-primary font-medium"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"
+            >
+              <UIcon name="i-heroicons-tag" class="h-5 w-5" />
+              Brands
+            </NuxtLink>
 
-          <NuxtLink
-            href="/admin/brands"
-            active-class="bg-gray-100 font-medium text-primary"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100"
-          >
-            <UIcon name="i-heroicons-tag" class="w-5 h-5" />
-            Brands
-          </NuxtLink>
+            <NuxtLink
+              to="/admin/leagues"
+              active-class="bg-gray-100 text-primary font-medium"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"
+            >
+              <UIcon name="i-heroicons-trophy" class="h-5 w-5" />
+              Leagues
+            </NuxtLink>
 
-          <NuxtLink
-            href="/admin/leagues"
-            active-class="bg-gray-100 font-medium text-primary"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100"
-          >
-            <UIcon name="i-heroicons-trophy" class="w-5 h-5" />
-            Leagues
-          </NuxtLink>
+            <NuxtLink
+              to="/admin/clubs"
+              active-class="bg-gray-100 text-primary font-medium"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"
+            >
+              <UIcon name="i-heroicons-building-storefront" class="h-5 w-5" />
+              Clubs
+            </NuxtLink>
 
-          <NuxtLink
-            href="/admin/clubs"
-            active-class="bg-gray-100 font-medium text-primary"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100"
-          >
-            <UIcon name="i-heroicons-building-storefront" class="w-5 h-5" />
-            Clubs
-          </NuxtLink>
+            <NuxtLink
+              to="/admin/products"
+              active-class="bg-gray-100 text-primary font-medium"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"
+            >
+              <UIcon name="i-heroicons-shopping-bag" class="h-5 w-5" />
+              Products
+            </NuxtLink>
 
-          <NuxtLink
-            href="/admin/products"
-            active-class="bg-gray-100 font-medium text-primary"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100"
-          >
-            <UIcon name="i-heroicons-shopping-bag" class="w-5 h-5" />
-            Products
-          </NuxtLink>
+            <NuxtLink
+              to="/admin/orders"
+              active-class="bg-gray-100 text-primary font-medium"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"
+            >
+              <UIcon
+                name="i-heroicons-clipboard-document-list"
+                class="h-5 w-5"
+              />
+              Orders
+            </NuxtLink>
 
-          <NuxtLink
-            href="/admin/orders"
-            active-class="bg-gray-100 font-medium text-primary"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100"
-          >
-            <UIcon name="i-heroicons-clipboard-document-list" class="w-5 h-5" />
-            Orders
-          </NuxtLink>
+            <NuxtLink
+              to="/admin/settings"
+              active-class="bg-gray-100 text-primary font-medium"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"
+            >
+              <UIcon name="i-heroicons-cog-6-tooth" class="h-5 w-5" />
+              Settings
+            </NuxtLink>
 
-          <NuxtLink
-            to="/admin/settings"
-            active-class="bg-gray-100 font-medium text-primary"
-            class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100 transition"
-          >
-            <UIcon name="i-heroicons-cog-6-tooth" class="w-5 h-5" />
-            Settings
-          </NuxtLink>
+            <button
+              class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-red-600 hover:bg-red-50"
+            >
+              <UIcon
+                name="i-heroicons-arrow-right-on-rectangle"
+                class="h-5 w-5"
+              />
+              Logout
+            </button>
+          </nav>
+        </div>
+      </aside>
 
-          <button
-            class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-red-600 hover:bg-red-50 transition"
-          >
-            <UIcon
-              name="i-heroicons-arrow-right-on-rectangle"
-              class="w-5 h-5"
-            />
-            Logout
-          </button>
-        </nav>
-      </div>
-    </aside>
-
-    <div class="bg-gray-100 lg:ml-64 overflow-y-auto p-6">
-      <slot />
+      <main class="min-h-[calc(100vh-4rem)] min-w-0 flex-1 p-6 lg:ml-64">
+        <slot />
+      </main>
     </div>
   </div>
 </template>
-
-<style scoped></style>

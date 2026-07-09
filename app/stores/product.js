@@ -38,6 +38,51 @@ export const useProductStore = defineStore("product", {
       }
     },
 
+    async show(product) {
+      const { $api } = useNuxtApp();
+      try {
+        const response = await $api(`/api/v1/products/${product}`);
+        return response.data;
+      } catch (error) {
+        this.errors = error?.response?._data?.errors;
+        throw error;
+      }
+    },
+
+    async update(product, payload) {
+      const { $api } = useNuxtApp();
+      this.loading = true;
+      try {
+        const response = await $api(`/api/v1/products/${product}`, {
+          method: "PUT",
+          body: payload,
+        });
+        return response;
+      } catch (error) {
+        this.errors = error?.response?._data?.errors;
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async media(product, payload) {
+      const { $api } = useNuxtApp();
+      this.loading = true;
+      try {
+        const response = await $api(`/api/v1/products/${product}/media`, {
+          method: "POST",
+          body: payload,
+        });
+        return response;
+      } catch (error) {
+        this.errors = error?.response?._data?.errors;
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
+
     async getProduct(slug) {
       const { $api } = useNuxtApp();
       try {

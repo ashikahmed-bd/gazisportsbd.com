@@ -3,188 +3,146 @@ definePageMeta({
   layout: "admin",
 });
 
-const orders = ref([
-  {
-    id: 1,
-    order_no: "ORD-100001",
-    name: "John Doe",
-    phone: "+8801712345678",
-    city: "Dhaka",
-    total: 2850,
-    payment_method: "COD",
-    status: "Pending",
-    created_at: "07 Jul 2026",
-  },
-  {
-    id: 2,
-    order_no: "ORD-100002",
-    name: "Rahim Uddin",
-    phone: "+8801811122233",
-    city: "Chattogram",
-    total: 4650,
-    payment_method: "SSLCommerz",
-    status: "Completed",
-    created_at: "06 Jul 2026",
-  },
-]);
+const orderStore = useOrderStore();
+const { orders } = storeToRefs(orderStore);
+
+onMounted(async () => {
+  await orderStore.all();
+});
 </script>
 
 <template>
   <main class="space-y-6">
-    <!-- Header -->
-    <div
-      class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
-    >
-      <div>
-        <h1 class="text-2xl font-bold text-gray-900">Orders</h1>
+    <div class="card">
+      <div class="card__header">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-gray-900">
+            Orders
+          </h1>
 
-        <p class="mt-1 text-sm text-gray-500">Manage customer orders.</p>
-      </div>
-    </div>
+          <p class="mt-1 text-sm text-gray-500">Manage your store orders.</p>
+        </div>
 
-    <!-- Filters -->
-    <div class="rounded-xl border border-gray-200 bg-white p-5">
-      <div class="grid gap-4 lg:grid-cols-6">
-        <input
-          type="text"
-          placeholder="Order No / Customer / Phone"
-          class="rounded-lg border border-gray-300 px-4 py-2.5 focus:border-indigo-500 focus:outline-none"
-        />
+        <div class="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Search orders..."
+              class="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 pr-10 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:w-72"
+            />
 
-        <select class="rounded-lg border border-gray-300 px-4 py-2.5">
-          <option>All Status</option>
-          <option>Pending</option>
-          <option>Processing</option>
-          <option>Shipped</option>
-          <option>Completed</option>
-          <option>Cancelled</option>
-        </select>
-
-        <select class="rounded-lg border border-gray-300 px-4 py-2.5">
-          <option>Payment Method</option>
-          <option>COD</option>
-          <option>SSLCommerz</option>
-          <option>Stripe</option>
-        </select>
-
-        <input
-          type="date"
-          class="rounded-lg border border-gray-300 px-4 py-2.5"
-        />
-
-        <button class="rounded-lg bg-gray-900 py-2.5 text-white hover:bg-black">
-          Search
-        </button>
-      </div>
-    </div>
-
-    <!-- Table -->
-    <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
-      <div class="overflow-x-auto">
-        <table class="min-w-full">
-          <thead class="bg-gray-50">
-            <tr class="text-left text-sm font-semibold text-gray-600">
-              <th class="px-6 py-4">Order</th>
-              <th class="px-6 py-4">Customer</th>
-              <th class="px-6 py-4">Location</th>
-              <th class="px-6 py-4">Amount</th>
-              <th class="px-6 py-4">Payment</th>
-              <th class="px-6 py-4">Status</th>
-              <th class="px-6 py-4">Date</th>
-              <th class="px-6 py-4 text-right">Actions</th>
-            </tr>
-          </thead>
-
-          <tbody class="divide-y divide-gray-100">
-            <tr
-              v-for="order in orders"
-              :key="order.id"
-              class="hover:bg-gray-50"
+            <svg
+              class="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <!-- Order -->
-              <td class="px-6 py-4">
-                <div>
-                  <h3 class="font-semibold text-gray-900">
-                    {{ order.order_no }}
-                  </h3>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </div>
 
-                  <p class="text-xs text-gray-500">#{{ order.id }}</p>
-                </div>
-              </td>
+          <NuxtLink to="/admin/orders/create" class="base__button">
+            Add Order
+          </NuxtLink>
+        </div>
+      </div>
 
-              <!-- Customer -->
-              <td class="px-6 py-4">
-                <div>
-                  <h3 class="font-medium">
-                    {{ order.name }}
-                  </h3>
+      <div class="card__body">
+        <div class="overflow-x-auto rounded-xl border border-border">
+          <table>
+            <thead>
+              <tr>
+                <th>Order No</th>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>Total</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th class="text-right">Action</th>
+              </tr>
+            </thead>
 
-                  <p class="text-sm text-gray-500">
-                    {{ order.phone }}
-                  </p>
-                </div>
-              </td>
+            <tbody>
+              <tr v-for="order in orders.data" :key="order.id">
+                <td>
+                  <span class="font-semibold text-gray-900">
+                    #{{ order.order_no }}
+                  </span>
+                </td>
 
-              <!-- City -->
-              <td class="px-6 py-4">
-                {{ order.city }}
-              </td>
+                <td>
+                  <div>
+                    <p class="font-medium text-gray-900">
+                      {{ order.name }}
+                    </p>
+                    <p class="text-xs text-gray-500">
+                      {{ order.city }}, {{ order.state }}
+                    </p>
+                  </div>
+                </td>
 
-              <!-- Total -->
-              <td class="px-6 py-4 font-semibold text-indigo-600">
-                ৳ {{ order.total }}
-              </td>
+                <td>
+                  {{ order.phone }}
+                </td>
 
-              <!-- Payment -->
-              <td class="px-6 py-4">
-                <span
-                  class="rounded-lg bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700"
-                >
-                  {{ order.payment_method }}
-                </span>
-              </td>
+                <td>
+                  <span class="font-semibold text-gray-900">
+                    ৳{{ order.total }}
+                  </span>
+                </td>
 
-              <!-- Status -->
-              <td class="px-6 py-4">
-                <span
-                  :class="{
-                    'bg-yellow-100 text-yellow-700': order.status === 'Pending',
-                    'bg-blue-100 text-blue-700': order.status === 'Processing',
-                    'bg-purple-100 text-purple-700': order.status === 'Shipped',
-                    'bg-green-100 text-green-700': order.status === 'Completed',
-                    'bg-red-100 text-red-700': order.status === 'Cancelled',
-                  }"
-                  class="rounded-full px-3 py-1 text-xs font-semibold"
-                >
-                  {{ order.status }}
-                </span>
-              </td>
+                <td>
+                  <span class="uppercase text-gray-700">
+                    {{ order.payment_method }}
+                  </span>
+                </td>
 
-              <!-- Date -->
-              <td class="px-6 py-4 text-sm text-gray-500">
-                {{ order.created_at }}
-              </td>
-
-              <!-- Actions -->
-              <td class="px-6 py-4">
-                <div class="flex justify-end gap-2">
-                  <NuxtLink
-                    :to="`/admin/orders/${order.id}`"
-                    class="rounded-lg border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-100"
+                <td>
+                  <span
+                    class="rounded-full px-3 py-1 text-xs font-semibold capitalize"
+                    :class="
+                      order.status === 'pending'
+                        ? 'bg-yellow-100 text-yellow-700'
+                        : order.status === 'processing'
+                          ? 'bg-blue-100 text-blue-700'
+                          : order.status === 'completed'
+                            ? 'bg-green-100 text-green-700'
+                            : order.status === 'cancelled'
+                              ? 'bg-red-100 text-red-700'
+                              : 'bg-gray-100 text-gray-700'
+                    "
                   >
-                    View
-                  </NuxtLink>
+                    {{ order.status }}
+                  </span>
+                </td>
 
-                  <button
-                    class="rounded-lg border border-indigo-200 px-3 py-1.5 text-sm text-indigo-600 hover:bg-indigo-50"
-                  >
-                    Invoice
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td>
+                  <div class="flex justify-end gap-2">
+                    <NuxtLink
+                      :to="`/admin/orders/${order.order_no}/view`"
+                      class="action__edit"
+                    >
+                      View
+                    </NuxtLink>
+
+                    <button class="action__delete">Delete</button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr v-if="!orders.data || orders.data.length === 0">
+                <td colspan="8" class="py-8 text-center text-gray-500">
+                  No orders found.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </main>

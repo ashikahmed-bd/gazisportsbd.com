@@ -57,18 +57,14 @@ onMounted(() => {
       </div>
 
       <div class="card__body">
-        <div
-          class="overflow-hidden rounded-xl border border-border overflow-x-auto"
-        >
+        <div class="rounded-xl border border-border overflow-x-auto">
           <table>
             <thead>
               <tr>
                 <th>Product</th>
                 <th>Category</th>
                 <th>Brand</th>
-                <th>Club</th>
                 <th>Price</th>
-                <th>Gender</th>
                 <th>Status</th>
                 <th class="text-right">Action</th>
               </tr>
@@ -102,13 +98,7 @@ onMounted(() => {
                   {{ product.brand?.name }}
                 </td>
                 <td>
-                  {{ product.club?.name }}
-                </td>
-                <td>
                   {{ product.price }}
-                </td>
-                <td>
-                  {{ product.gender }}
                 </td>
                 <td>
                   <span
@@ -125,7 +115,11 @@ onMounted(() => {
 
                 <td>
                   <div class="flex justify-end gap-2">
-                    <button class="action__edit">Edit</button>
+                    <NuxtLink
+                      :to="`/admin/products/${product.id}/edit`"
+                      class="action__edit"
+                      >Edit</NuxtLink
+                    >
                     <button class="action__delete">Delete</button>
                   </div>
                 </td>
