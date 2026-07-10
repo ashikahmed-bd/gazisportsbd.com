@@ -22,12 +22,12 @@ const paymentMethods = [
 ];
 
 const form = reactive({
-  name: "Abu Toha",
-  phone: "01911588858",
-  address: "Rowmari",
-  city: "Rowmari",
-  state: "Kurigram",
-  postcode: "5640",
+  name: "",
+  phone: "",
+  address: "",
+  city: "",
+  state: "",
+  postcode: "",
   country: "BD",
   note: "",
   payment_method: "cod",

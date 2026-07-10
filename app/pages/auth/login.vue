@@ -8,8 +8,8 @@ definePageMeta({
 });
 
 const form = reactive({
-  phone: "01955213569",
-  password: "Omarfarukomi1!",
+  phone: "",
+  password: "",
 });
 
 const submit = async () => {

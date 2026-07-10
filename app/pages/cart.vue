@@ -33,7 +33,7 @@ const clear = async () => {
 };
 
 const coupon = reactive({
-  code: "WELCOME20",
+  code: "",
 });
 
 const applyCoupon = async () => {
