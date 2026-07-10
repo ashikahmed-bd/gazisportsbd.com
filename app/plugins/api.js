@@ -27,8 +27,6 @@ export default defineNuxtPlugin(() => {
 
         navigateTo("/auth/login", { replace: true });
       }
-
-      console.error("API Error:", response);
     },
   });
 

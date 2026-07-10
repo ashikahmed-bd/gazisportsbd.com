@@ -41,6 +41,12 @@ const applyCoupon = async () => {
 
   const response = await couponStore.apply(coupon);
 
+  console.log(error?.response?._data?.message);
+
+  toast.add({
+    title: response.message,
+  });
+
   toast.add({
     title: response.message,
   });
