@@ -121,6 +121,7 @@ export const useCartStore = defineStore("cart", {
 
     async buyNow(payload) {
       const { $api } = useNuxtApp();
+      this.loading = true;
       try {
         const response = await $api("/api/cart", {
           method: "POST",
@@ -130,6 +131,8 @@ export const useCartStore = defineStore("cart", {
       } catch (error) {
         this.errors = error?.response?._data?.errors;
         throw error;
+      } finally {
+        this.loading = false;
       }
     },
 

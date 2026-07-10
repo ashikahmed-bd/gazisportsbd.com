@@ -59,6 +59,11 @@ const buyNow = async (product) => {
       <ErrorState :retry="refresh" />
     </template>
     <template v-else-if="product">
+      <SeoMeta
+        :title="product.meta_title"
+        :description="product.meta_description"
+        :keywords="product.meta_keywords"
+      />
       <div class="bg-gray-50">
         <div class="bg-white border-b border-gray-200">
           <div class="max-w-7xl mx-auto px-4 py-3 overflow-x-auto">
@@ -282,11 +287,21 @@ const buyNow = async (product) => {
                   <button
                     type="button"
                     @click="buyNow(product)"
-                    :disabled="!product.in_stock"
-                    class="flex items-center justify-center rounded bg-gray-900 text-base font-semibold text-white transition hover:bg-black hover:scale-105 disabled:bg-gray-300"
+                    :disabled="!product.in_stock || cartStore.loading"
+                    class="inline-flex items-center justify-center px-4 py-2.5 rounded bg-black text-gray-100 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    <UIcon name="i-lucide-zap" class="mr-2 size-5" />
-                    Buy Now
+                    <template v-if="cartStore.loading">
+                      <UIcon
+                        name="i-lucide-loader-circle"
+                        class="mr-2 size-5 animate-spin"
+                      />
+                      Processing...
+                    </template>
+
+                    <template v-else>
+                      <UIcon name="i-lucide-zap" class="mr-2 size-5" />
+                      Buy Now
+                    </template>
                   </button>
                 </div>
               </div>

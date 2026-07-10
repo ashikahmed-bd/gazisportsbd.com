@@ -29,6 +29,12 @@ const instagram = [
       <ErrorState :retry="refresh" />
     </template>
     <template v-else-if="home">
+      <SeoMeta
+        title="Gazi Sports | Premium Football Jerseys & Sportswear in Bangladesh"
+        description="Gazi Sports is Bangladesh's trusted online football jersey store. Explore premium club and national team jerseys, player editions, fan versions, and sportswear at the best prices with nationwide delivery."
+        keywords="Gazi Sports, football jerseys Bangladesh, soccer jerseys, sportswear Bangladesh, club jerseys, national team jerseys, fan version jersey, player version jersey, Messi jersey, Ronaldo jersey, football kits, jersey online shop Bangladesh"
+      />
+
       <section class="relative overflow-hidden">
         <UCarousel
           v-slot="{ item }"
