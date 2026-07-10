@@ -44,7 +44,7 @@ const instagram = [
         </UCarousel>
       </section>
 
-      <section class="py-6">
+      <section v-if="false" class="py-6">
         <div class="max-w-7xl mx-auto px-4">
           <div class="bg-white rounded-2xl border border-gray-200">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">

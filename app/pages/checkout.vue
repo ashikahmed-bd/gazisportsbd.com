@@ -30,7 +30,7 @@ const form = reactive({
   postcode: "5640",
   country: "BD",
   note: "",
-  payment_method: "",
+  payment_method: "cod",
 });
 
 const submit = async () => {
@@ -193,7 +193,7 @@ const submit = async () => {
                     type="text"
                     autocomplete="name"
                     placeholder="Enter your full name"
-                    class="h-12 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
                   />
                 </div>
 
@@ -214,7 +214,7 @@ const submit = async () => {
                     autocomplete="tel"
                     maxlength="11"
                     placeholder="01XXXXXXXXX"
-                    class="h-12 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
                   />
                 </div>
 
@@ -227,13 +227,13 @@ const submit = async () => {
                     <span class="text-red-500">*</span>
                   </label>
 
-                  <textarea
+                  <input
                     id="checkout-address"
                     v-model="form.address"
-                    rows="3"
+                    type="text"
                     autocomplete="street-address"
                     placeholder="House, road, area and thana"
-                    class="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
                   />
                 </div>
 
@@ -252,7 +252,7 @@ const submit = async () => {
                     type="text"
                     autocomplete="address-level2"
                     placeholder="For example, Dhaka"
-                    class="h-12 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
                   />
                 </div>
 
@@ -271,7 +271,7 @@ const submit = async () => {
                     type="text"
                     autocomplete="address-level1"
                     placeholder="For example, Dhaka Division"
-                    class="h-12 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
                   />
                 </div>
 
@@ -290,7 +290,7 @@ const submit = async () => {
                     inputmode="numeric"
                     autocomplete="postal-code"
                     placeholder="For example, 1207"
-                    class="h-12 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
                   />
                 </div>
 
@@ -306,7 +306,7 @@ const submit = async () => {
                     id="checkout-country"
                     v-model="form.country"
                     autocomplete="country"
-                    class="h-12 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
                   >
                     <option value="BD">Bangladesh</option>
                   </select>
@@ -331,78 +331,6 @@ const submit = async () => {
                 </div>
               </div>
             </section>
-
-            <section
-              class="overflow-hidden rounded-2xl border border-gray-200 bg-white"
-            >
-              <div
-                class="flex items-center gap-3 border-b border-gray-200 px-5 py-4"
-              >
-                <div
-                  class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary"
-                >
-                  <UIcon name="i-lucide-wallet-cards" class="h-5 w-5" />
-                </div>
-
-                <div>
-                  <h2 class="text-lg font-semibold text-gray-900">
-                    Payment Method
-                  </h2>
-
-                  <p class="text-xs text-gray-500">
-                    Select how you want to pay for your order.
-                  </p>
-                </div>
-              </div>
-
-              <div class="grid gap-4 p-5 sm:grid-cols-2">
-                <label
-                  v-for="method in paymentMethods"
-                  :key="method.value"
-                  class="relative flex cursor-pointer gap-4 rounded-xl border p-4 transition"
-                  :class="
-                    form.payment_method === method.value
-                      ? 'border-primary bg-primary/5 ring-1 ring-primary'
-                      : 'border-gray-200 hover:border-gray-300'
-                  "
-                >
-                  <input
-                    v-model="form.payment_method"
-                    type="radio"
-                    name="payment-method"
-                    :value="method.value"
-                    class="sr-only"
-                  />
-
-                  <div
-                    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
-                    :class="
-                      form.payment_method === method.value
-                        ? 'bg-primary text-white'
-                        : 'bg-gray-100 text-gray-600'
-                    "
-                  >
-                    <UIcon :name="method.icon" class="h-5 w-5" />
-                  </div>
-
-                  <div class="min-w-0">
-                    <p class="font-semibold text-gray-900">
-                      {{ method.label }}
-                    </p>
-
-                    <p class="mt-1 text-xs leading-5 text-gray-500">
-                      {{ method.description }}
-                    </p>
-                  </div>
-
-                  <UIcon
-                    v-if="form.payment_method === method.value"
-                    name="i-lucide-circle-check"
-                    class="absolute right-3 top-3 h-5 w-5 text-primary"
-                  />
-                </label>
-              </div>
-            </section>
           </div>
 
           <aside class="self-start">
@@ -418,7 +346,7 @@ const submit = async () => {
                 </p>
               </div>
 
-              <div class="overflow-y-auto p-5 space-y-4">
+              <div class="space-y-4 overflow-y-auto p-5">
                 <article
                   v-for="item in data.items"
                   :key="item.id"
@@ -445,7 +373,7 @@ const submit = async () => {
 
                     <div
                       v-if="item.options && Object.keys(item.options).length"
-                      class="mt-1 flex flex-wrap gap-x-2 gap-y-1"
+                      class="mt-1 flex flex-wrap gap-2"
                     >
                       <span
                         v-for="(value, key) in item.options"
@@ -453,9 +381,9 @@ const submit = async () => {
                         class="text-xs text-gray-500"
                       >
                         {{ key }}:
-                        <span class="font-semibold text-gray-800">
-                          {{ value }}
-                        </span>
+                        <span class="font-semibold text-gray-800">{{
+                          value
+                        }}</span>
                       </span>
                     </div>
                   </div>
@@ -466,27 +394,82 @@ const submit = async () => {
                 </article>
               </div>
 
-              <div class="p-4 space-y-4">
-                <div class="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>{{ data.subtotal }}</span>
+              <div class="space-y-5 p-5 border-t border-border">
+                <div class="space-y-3">
+                  <h3 class="mb-3 font-semibold">Payment Method</h3>
+
+                  <label
+                    v-for="method in paymentMethods"
+                    :key="method.value"
+                    class="relative flex cursor-pointer gap-4 rounded-xl border p-4 transition"
+                    :class="
+                      form.payment_method === method.value
+                        ? 'border-primary bg-primary/5 ring-1 ring-primary'
+                        : 'border-gray-200 hover:border-gray-300'
+                    "
+                  >
+                    <input
+                      v-model="form.payment_method"
+                      type="radio"
+                      name="payment-method"
+                      :value="method.value"
+                      class="sr-only"
+                    />
+
+                    <div
+                      class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+                      :class="
+                        form.payment_method === method.value
+                          ? 'bg-primary text-white'
+                          : 'bg-gray-100 text-gray-600'
+                      "
+                    >
+                      <UIcon :name="method.icon" class="h-5 w-5" />
+                    </div>
+
+                    <div class="min-w-0">
+                      <p class="font-semibold text-gray-900">
+                        {{ method.label }}
+                      </p>
+
+                      <p class="mt-1 text-xs leading-5 text-gray-500">
+                        {{ method.description }}
+                      </p>
+                    </div>
+
+                    <UIcon
+                      v-if="form.payment_method === method.value"
+                      name="i-lucide-circle-check"
+                      class="absolute right-3 top-3 h-5 w-5 text-primary"
+                    />
+                  </label>
                 </div>
 
-                <div class="flex justify-between">
-                  <span>Shipping</span>
-                  <span>{{ data.shipping }}</span>
-                </div>
+                <div class="space-y-3">
+                  <div class="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>{{ data.subtotal }}</span>
+                  </div>
 
-                <div class="flex justify-between text-success">
-                  <span>Discount</span>
-                  <span>{{ data.discount }}</span>
-                </div>
+                  <div class="flex justify-between">
+                    <span>Shipping</span>
+                    <span>{{ data.shipping }}</span>
+                  </div>
 
-                <div class="flex justify-between">
-                  <span class="font-semibold"> Total </span>
-                  <span class="text-2xl font-bold text-primary">
-                    {{ data.total }}
-                  </span>
+                  <div class="flex justify-between">
+                    <span class="text-danger">Discount</span>
+                    <span class="font-semibold text-danger">
+                      -{{ data.discount }}
+                    </span>
+                  </div>
+
+                  <div class="flex justify-between">
+                    <span class="font-semibold">Total</span>
+
+                    <span class="text-2xl font-bold text-primary">
+                      {{ data.total }}
+                    </span>
+                  </div>
                 </div>
 
                 <BaseButton
@@ -495,16 +478,26 @@ const submit = async () => {
                   :disabled="!data?.items?.length || cartStore.loading"
                   :loading="cartStore.loading"
                 >
-                  <UIcon name="i-lucide-lock-keyhole" class="mr-2 size-4" />
+                  <UIcon
+                    :name="
+                      form.payment_method === 'online'
+                        ? 'i-lucide-credit-card'
+                        : 'i-lucide-lock-keyhole'
+                    "
+                    class="mr-2 size-4"
+                  />
 
-                  Place Order
+                  {{
+                    form.payment_method === "online"
+                      ? "Proceed to Payment"
+                      : "Place Order"
+                  }}
                 </BaseButton>
 
                 <div
                   class="flex items-center justify-center gap-2 rounded-xl bg-green-50 p-3 text-xs text-green-700"
                 >
                   <UIcon name="i-lucide-shield-check" class="size-4" />
-
                   Secure SSL Encrypted Checkout
                 </div>
               </div>

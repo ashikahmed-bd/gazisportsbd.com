@@ -27,15 +27,13 @@ const {
       <span>Free Shipping on orders over ৳1999</span>
       <span class="font-semibold text-yellow-400">
         Get 10% OFF on your first order
-        <span class="text-white">JERSEY10</span>
+        <span class="text-white">WELCOME20</span>
       </span>
 
       <div class="flex items-center gap-5">
-        <NuxtLink to="/support" class="hover:text-primary"> Support </NuxtLink>
+        <NuxtLink to="/" class="hover:text-primary"> Support </NuxtLink>
 
-        <NuxtLink to="/track-order" class="hover:text-primary">
-          Track Order
-        </NuxtLink>
+        <NuxtLink to="/" class="hover:text-primary"> Track Order </NuxtLink>
 
         <button class="hover:text-primary">EN</button>
       </div>

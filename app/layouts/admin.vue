@@ -58,6 +58,15 @@ const authStore = useAuthStore();
             </NuxtLink>
 
             <NuxtLink
+              to="/admin/categories"
+              active-class="bg-gray-100 text-primary font-medium"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"
+            >
+              <UIcon name="i-heroicons-list-bullet" class="h-5 w-5" />
+              Categories
+            </NuxtLink>
+
+            <NuxtLink
               to="/admin/brands"
               active-class="bg-gray-100 text-primary font-medium"
               class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"

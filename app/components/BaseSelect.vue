@@ -29,7 +29,8 @@ const modelValue = computed({
         error ? 'border-red-500' : 'border-gray-300',
       ]"
     >
-      <option v-for="item in items" :key="item.value" :value="item.value">
+      <option value="" disabled>Select option</option>
+      <option v-for="item in items" :key="item.id" :value="item.id">
         {{ item.label }}
       </option>
     </select>
@@ -37,4 +38,9 @@ const modelValue = computed({
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* categories.map((category) => ({
+                label: category.name,
+                id: category.id,
+              })) */
+</style>
