@@ -55,12 +55,24 @@ const applyCoupon = async () => {
 
 <template>
   <main class="bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 py-10">
-      <LoadingState v-if="pending" />
+    <LoadingState v-if="pending" />
 
-      <ErrorState v-else-if="error" :retry="refresh" />
+    <ErrorState v-else-if="error" :retry="refresh" />
 
-      <template v-else-if="cart.items?.length">
+    <template v-else-if="cart.items?.length">
+      <Head>
+        <Title>Shopping Cart</Title>
+
+        <Meta
+          name="description"
+          content="Review the products in your shopping cart, update quantities, remove items, and proceed securely to checkout."
+        />
+
+        <Meta name="robots" content="noindex, nofollow" />
+        <Meta name="referrer" content="no-referrer-when-downgrade" />
+      </Head>
+
+      <div class="max-w-7xl mx-auto px-4 py-10">
         <div class="mb-8 text-sm text-gray-500">
           <NuxtLink to="/" class="transition hover:text-primary">
             Home
@@ -69,8 +81,8 @@ const applyCoupon = async () => {
           <span class="font-medium text-gray-900"> Shopping Cart </span>
         </div>
 
-        <div class="grid items-start gap-8 lg:grid-cols-3">
-          <section class="space-y-5 lg:col-span-2">
+        <div class="grid grid-cols-1 md:grid-cols-3 md:gap-6">
+          <section class="col-span-2 space-y-4">
             <div class="flex items-center justify-between">
               <h1 class="text-3xl font-bold text-gray-900">Shopping Cart</h1>
               <span class="text-gray-500">
@@ -86,7 +98,7 @@ const applyCoupon = async () => {
               class="rounded-2xl border border-gray-200 bg-white p-4 transition"
             >
               <div class="flex items-start gap-4">
-                <img
+                <NuxtImg
                   :src="item.product?.cover_url"
                   :alt="item.product?.name"
                   class="size-24 rounded-xl bg-gray-100 object-cover"
@@ -198,27 +210,29 @@ const applyCoupon = async () => {
             </div>
           </section>
 
-          <aside class="self-start lg:sticky lg:top-24">
+          <aside class="w-full">
             <div
               class="rounded-2xl border border-gray-200 bg-white p-4 space-y-4"
             >
               <h2 class="mb-6 text-2xl font-bold text-gray-900">
                 Order Summary
               </h2>
-              <form @submit.prevent="applyCoupon" class="mb-6 flex">
-                <input
-                  type="text"
-                  v-model="coupon.code"
-                  placeholder="Coupon Code"
-                  class="h-11 flex-1 rounded-l-xl border border-r-0 border-gray-200 px-4 outline-none focus:border-primary"
-                />
+              <form @submit.prevent="applyCoupon">
+                <div class="relative">
+                  <input
+                    type="text"
+                    v-model="coupon.code"
+                    placeholder="Coupon Code"
+                    class="h-11 w-full rounded-xl border border-gray-200 pr-28 pl-4 outline-none focus:border-primary"
+                  />
 
-                <button
-                  type="submit"
-                  class="rounded-r-xl bg-primary px-5 font-medium text-white hover:opacity-90"
-                >
-                  Apply
-                </button>
+                  <button
+                    type="submit"
+                    class="absolute right-1 top-1/2 flex h-9 -translate-y-1/2 items-center rounded-lg bg-primary px-5 text-sm font-medium text-white transition hover:opacity-90"
+                  >
+                    Apply
+                  </button>
+                </div>
               </form>
 
               <div class="space-y-4">
@@ -268,9 +282,9 @@ const applyCoupon = async () => {
             </div>
           </aside>
         </div>
-      </template>
+      </div>
+    </template>
 
-      <EmptyCart v-else />
-    </div>
+    <EmptyCart v-else />
   </main>
 </template>
