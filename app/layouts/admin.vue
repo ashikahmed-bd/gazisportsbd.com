@@ -21,7 +21,7 @@ const authStore = useAuthStore();
       </div>
       <div class="flex items-center gap-3">
         <NuxtImg
-          :src="authStore.user?.photo_url || '/images/avatar.png'"
+          :src="authStore.user?.photo_url"
           :alt="authStore.user?.name"
           class="h-10 w-10 rounded-full border border-dashed object-cover"
         />
@@ -112,6 +112,15 @@ const authStore = useAuthStore();
                 class="h-5 w-5"
               />
               Orders
+            </NuxtLink>
+
+            <NuxtLink
+              to="/admin/banners"
+              active-class="bg-gray-100 text-primary font-medium"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"
+            >
+              <UIcon name="i-lucide-image" class="h-5 w-5" />
+              Banners
             </NuxtLink>
 
             <NuxtLink

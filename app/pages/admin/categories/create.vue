@@ -61,7 +61,7 @@ onMounted(async () => {
             label="Parent"
             v-model="form.parent"
             :items="
-              categories?.map((category) => ({
+              categories.map((category) => ({
                 label: category.name,
                 id: category.id,
               }))

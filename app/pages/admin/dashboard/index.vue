@@ -3,6 +3,10 @@ definePageMeta({
   layout: "admin",
 });
 
+useSeoMeta({
+  title: "Dashboard",
+});
+
 const appStore = useAppStore();
 const { dashboard } = storeToRefs(appStore);
 

@@ -42,8 +42,6 @@ const form = reactive({
   stock: "",
 
   gender: "",
-  cover: "",
-  gallery: "",
 
   featured: true,
   active: true,
@@ -132,8 +130,6 @@ const loadProduct = async (id) => {
   form.price = product.price;
   form.stock = product.stock;
   form.gender = product.gender;
-  form.cover = product.cover_url;
-  form.gallery = product.gallery;
   form.meta_title = product.meta_title;
   form.meta_description = product.meta_description;
   form.meta_keywords = product.meta_keywords;
@@ -323,19 +319,19 @@ onMounted(async () => {
                 :items="[
                   {
                     label: 'Men',
-                    value: 'men',
+                    id: 'men',
                   },
                   {
                     label: 'Women',
-                    value: 'women',
+                    id: 'women',
                   },
                   {
                     label: 'Kids',
-                    value: 'kids',
+                    id: 'kids',
                   },
                   {
                     label: 'Unisex',
-                    value: 'unisex',
+                    id: 'unisex',
                   },
                 ]"
               />
@@ -344,9 +340,9 @@ onMounted(async () => {
                 label="Categories"
                 v-model="form.category_id"
                 :items="
-                  categories.map((category) => ({
+                  categories?.map((category) => ({
                     label: category.name,
-                    value: category.id,
+                    id: category.id,
                   }))
                 "
               />
@@ -355,9 +351,9 @@ onMounted(async () => {
                 label="Brands"
                 v-model="form.brand_id"
                 :items="
-                  brands.map((brand) => ({
+                  brands?.map((brand) => ({
                     label: brand.name,
-                    value: brand.id,
+                    id: brand.id,
                   }))
                 "
               />
@@ -366,9 +362,9 @@ onMounted(async () => {
                 label="Clubs"
                 v-model="form.club_id"
                 :items="
-                  clubs.map((club) => ({
+                  clubs?.map((club) => ({
                     label: club.name,
-                    value: club.id,
+                    id: club.id,
                   }))
                 "
               />
