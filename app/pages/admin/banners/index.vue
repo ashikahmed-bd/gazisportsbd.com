@@ -32,7 +32,7 @@ onMounted(async () => {
             <div class="relative">
               <input
                 type="text"
-                placeholder="Search brands..."
+                placeholder="Search banners..."
                 class="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 pr-10 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:w-72"
               />
 
@@ -43,7 +43,6 @@ onMounted(async () => {
             </div>
 
             <NuxtLink to="/admin/brands/create" class="base__button">
-              <span class="text-lg">+</span>
               Add Banner
             </NuxtLink>
           </div>
@@ -57,12 +56,10 @@ onMounted(async () => {
           <table>
             <thead>
               <tr>
-                <th>Logo</th>
-                <th>Brand</th>
-                <th>Slug</th>
-                <th>Country</th>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Subtitle</th>
                 <th>Status</th>
-                <th>Created</th>
                 <th class="text-right">Action</th>
               </tr>
             </thead>
@@ -70,10 +67,56 @@ onMounted(async () => {
             <tbody>
               <tr v-for="banner in banners.data" :key="banner.id">
                 <td>
+                  <NuxtImg
+                    :src="banner.image_url"
+                    :alt="banner.title"
+                    class="h-14 w-auto rounded object-cover"
+                  />
+                </td>
+
+                <td class="font-medium">
+                  {{ banner.title }}
+                </td>
+
+                <td>
+                  {{ banner.subtitle || "—" }}
+                </td>
+
+                <td>
+                  <span
+                    :class="
+                      banner.active
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-red-100 text-red-700'
+                    "
+                    class="inline-flex rounded-full px-3 py-1 text-xs font-medium"
+                  >
+                    {{ banner.active ? "Active" : "Inactive" }}
+                  </span>
+                </td>
+
+                <td>
                   <div class="flex justify-end gap-2">
-                    <button class="action__edit">Edit</button>
-                    <button class="action__delete">Delete</button>
+                    <NuxtLink
+                      :to="`/admin/banners/${banner.id}/edit`"
+                      class="action__edit"
+                      >Edit</NuxtLink
+                    >
+
+                    <button
+                      type="button"
+                      class="action__delete"
+                      @click="deleteBanner(banner.id)"
+                    >
+                      Delete
+                    </button>
                   </div>
+                </td>
+              </tr>
+
+              <tr v-if="!banners.data?.length">
+                <td colspan="10" class="py-8 text-center text-gray-500">
+                  No banners found.
                 </td>
               </tr>
             </tbody>
