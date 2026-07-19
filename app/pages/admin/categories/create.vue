@@ -8,7 +8,7 @@ const categoryStore = useCategoryStore();
 const { categories } = storeToRefs(categoryStore);
 
 const form = reactive({
-  parent: null,
+  parent_id: null,
   name: "",
   slug: "",
   image_url: "",
@@ -59,9 +59,12 @@ onMounted(async () => {
 
           <BaseSelect
             label="Parent"
-            v-model="form.parent"
+            v-model="form.parent_id"
             :items="
-              categories.map((category) => ({
+              (Array.isArray(categories)
+                ? categories
+                : categories?.data || []
+              ).map((category) => ({
                 label: category.name,
                 id: category.id,
               }))

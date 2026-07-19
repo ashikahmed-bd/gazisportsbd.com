@@ -52,15 +52,22 @@ export const useCategoryStore = defineStore("category", {
 
     async update(category, payload) {
       const { $api } = useNuxtApp();
+      const toast = useToast();
+      this.loading = true;
       try {
         const response = await $api(`/api/v1/categories/${category}`, {
           method: "PUT",
           body: payload,
         });
+        toast.add({
+          title: response.message,
+        });
         return response;
       } catch (error) {
         this.errors = error?.response?._data?.errors;
         throw error;
+      } finally {
+        this.loading = false;
       }
     },
 

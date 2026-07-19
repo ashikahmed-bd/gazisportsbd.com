@@ -74,58 +74,145 @@ onMounted(() => {
             </thead>
 
             <tbody>
-              <tr v-for="category in categories.data" :key="category.id">
-                <td>
-                  <NuxtImg
-                    :src="category.image_url"
-                    :alt="category.name"
-                    class="size-12 rounded object-cover"
-                  />
-                </td>
+              <template v-for="category in categories.data" :key="category.id">
+                <tr class="border-b bg-white">
+                  <td>
+                    <NuxtImg
+                      :src="category.image_url"
+                      :alt="category.name"
+                      class="size-12 rounded object-cover"
+                    />
+                  </td>
 
-                <td>
-                  <h3 class="font-semibold text-gray-900">
-                    {{ category.name }}
-                  </h3>
-                </td>
-                <td>{{ category.slug }}</td>
-                <td>
-                  <span
-                    class="rounded-md bg-gray-100 px-3 py-1 text-xs font-medium"
-                  >
-                    {{ category.parent?.name ?? "N/A" }}
-                  </span>
-                </td>
+                  <td>
+                    <h3 class="font-semibold text-gray-900">
+                      {{ category.name }}
+                    </h3>
 
-                <td>
-                  <span
-                    :class="
-                      category.active
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-red-100 text-red-700'
-                    "
-                    class="rounded-full px-3 py-1 text-xs font-semibold"
-                  >
-                    {{ category.active ? "Active" : "Inactive" }}
-                  </span>
-                </td>
-
-                <td>
-                  <div class="flex justify-end gap-2">
-                    <NuxtLink
-                      :to="`/admin/categories/${category.id}/edit`"
-                      class="action__edit"
-                      >Edit</NuxtLink
+                    <span
+                      v-if="category.children?.length"
+                      class="text-xs text-gray-500"
                     >
-                    <button
-                      @click="deleteCategory(category.id)"
-                      class="action__delete"
+                      {{ category.children.length }} children
+                    </span>
+                  </td>
+
+                  <td>{{ category.slug }}</td>
+
+                  <td>
+                    <span
+                      class="rounded-md bg-gray-100 px-3 py-1 text-xs font-medium"
                     >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                      {{ category.parent?.name ?? "N/A" }}
+                    </span>
+                  </td>
+
+                  <td>
+                    <span
+                      :class="
+                        category.active
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-red-100 text-red-700'
+                      "
+                      class="rounded-full px-3 py-1 text-xs font-semibold"
+                    >
+                      {{ category.active ? "Active" : "Inactive" }}
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="flex justify-end gap-2">
+                      <NuxtLink
+                        :to="`/admin/categories/${category.id}`"
+                        class="action__edit"
+                      >
+                        Edit
+                      </NuxtLink>
+
+                      <button
+                        class="action__delete"
+                        @click="deleteCategory(category.id)"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr
+                  v-for="child in category.children || []"
+                  :key="`child-${child.id}`"
+                  class="border-b bg-gray-50"
+                >
+                  <td>
+                    <div class="ml-6 flex items-center gap-2">
+                      <UIcon
+                        name="i-heroicons-arrow-turn-down-right"
+                        class="size-4 shrink-0 text-gray-400"
+                      />
+
+                      <NuxtImg
+                        :src="child.image_url"
+                        :alt="child.name"
+                        class="size-10 rounded object-cover"
+                      />
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="pl-6">
+                      <h3 class="font-medium text-gray-800">
+                        {{ child.name }}
+                      </h3>
+
+                      <span class="text-xs text-gray-500">
+                        Child category
+                      </span>
+                    </div>
+                  </td>
+
+                  <td>{{ child.slug }}</td>
+
+                  <td>
+                    <span
+                      class="rounded-md bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700"
+                    >
+                      {{ category.name }}
+                    </span>
+                  </td>
+
+                  <td>
+                    <span
+                      :class="
+                        child.active
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-red-100 text-red-700'
+                      "
+                      class="rounded-full px-3 py-1 text-xs font-semibold"
+                    >
+                      {{ child.active ? "Active" : "Inactive" }}
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="flex justify-end gap-2">
+                      <NuxtLink
+                        :to="`/admin/categories/${child.id}`"
+                        class="action__edit"
+                      >
+                        Edit
+                      </NuxtLink>
+
+                      <button
+                        class="action__delete"
+                        @click="deleteCategory(child.id)"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </div>

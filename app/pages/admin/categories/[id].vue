@@ -22,14 +22,14 @@ const loadCategory = async () => {
   const category = await categoryStore.show(route.params.id);
 
   Object.assign(form, {
-    parent: category.parent,
-    name: category.name,
-    slug: category.slug,
-    image_url: category.image_url,
-    meta_title: category.meta_title,
-    meta_description: category.meta_description,
-    meta_keywords: category.meta_keywords,
-    active: category.active,
+    parent_id: category.parent?.id ?? null,
+    name: category.name ?? "",
+    slug: category.slug ?? "",
+    image_url: category.image_url ?? "",
+    meta_title: category.meta_title ?? "",
+    meta_description: category.meta_description ?? "",
+    meta_keywords: category.meta_keywords ?? "",
+    active: category.active ?? false,
   });
 };
 
@@ -87,7 +87,10 @@ onMounted(() => {
               label="Parent"
               v-model="form.parent_id"
               :items="
-                categories.map((category) => ({
+                (Array.isArray(categories)
+                  ? categories
+                  : categories?.data || []
+                ).map((category) => ({
                   label: category.name,
                   id: category.id,
                 }))
@@ -127,7 +130,7 @@ onMounted(() => {
               ]"
             />
           </div>
-          <BaseButton>Submit</BaseButton>
+          <BaseButton :loading="categoryStore.loading">Submit</BaseButton>
         </form>
         <form @submit.prevent="imageUpload">
           <BaseFile
