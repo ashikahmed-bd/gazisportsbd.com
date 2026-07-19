@@ -21,18 +21,26 @@ const authStore = useAuthStore();
       </div>
       <div class="flex items-center gap-3">
         <NuxtImg
-          :src="authStore.user?.photo_url"
-          :alt="authStore.user?.name"
+          v-if="authStore.user?.photo_url"
+          :src="authStore.user.photo_url"
+          :alt="authStore.user?.name || 'User'"
           class="h-10 w-10 rounded-full border border-dashed object-cover"
         />
 
+        <div
+          v-else
+          class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200"
+        >
+          <UIcon name="i-heroicons-user" class="h-6 w-6 text-gray-500" />
+        </div>
+
         <div class="min-w-0">
           <h3 class="truncate text-sm font-semibold text-gray-900">
-            {{ authStore.user?.name }}
+            {{ authStore.user?.name || "Loading..." }}
           </h3>
 
           <p class="text-xs capitalize text-gray-500">
-            {{ authStore.user?.role }}
+            {{ authStore.user?.role || "" }}
           </p>
         </div>
       </div>

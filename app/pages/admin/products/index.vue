@@ -116,7 +116,7 @@ onMounted(() => {
                 <td>
                   <div class="flex justify-end gap-2">
                     <NuxtLink
-                      :to="`/admin/products/${product.id}/edit`"
+                      :to="`/admin/products/${product.id}`"
                       class="action__edit"
                       >Edit</NuxtLink
                     >

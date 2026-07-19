@@ -26,38 +26,30 @@ const loadClubs = async () => {
 };
 
 const form = reactive({
-  category_id: "1",
-  brand_id: "1",
-  club_id: "1",
+  category_id: null,
+  brand_id: null,
+  club_id: null,
 
-  name: "Real Madrid Home Jersey 2025/26",
-  slug: "real-madrid-home-jersey-2025-26",
+  name: "",
+  slug: "",
 
-  highlights: `Official home jersey design
-Breathable moisture-wicking fabric
-Lightweight and comfortable fit
-Premium heat-pressed club crest
-Suitable for match day and casual wear`,
+  highlights: null,
 
-  description: `Support Real Madrid in style with the official-inspired 2025/26 Home Jersey. Crafted from lightweight, breathable fabric, this jersey keeps you cool and comfortable whether you're playing football or cheering from the stands. Featuring the iconic white design with premium detailing, it's perfect for every Madridista.`,
+  description: null,
 
   options: [],
-  base_price: "1800",
-  price: "1500",
-  stock: "100",
+  base_price: 0,
+  price: 0,
+  stock: 0,
 
   gender: "unisex",
 
   featured: true,
   active: true,
 
-  meta_title: "Real Madrid Home Jersey 2025/26 | Buyzin Sports",
-
-  meta_keywords:
-    "Real Madrid Jersey, Football Jersey, Soccer Jersey, Home Kit 2025, Adidas Jersey, Buyzin Sports",
-
-  meta_description:
-    "Buy the Real Madrid Home Jersey 2025/26 at the best price in Bangladesh. Premium quality football jersey with breathable fabric, available in all sizes.",
+  meta_title: "",
+  meta_keywords: "",
+  meta_description: "",
 });
 
 const addOption = () => {
@@ -279,19 +271,19 @@ onMounted(() => {
                 :items="[
                   {
                     label: 'Men',
-                    value: 'men',
+                    id: 'men',
                   },
                   {
                     label: 'Women',
-                    value: 'women',
+                    id: 'women',
                   },
                   {
                     label: 'Kids',
-                    value: 'kids',
+                    id: 'kids',
                   },
                   {
                     label: 'Unisex',
-                    value: 'unisex',
+                    id: 'unisex',
                   },
                 ]"
               />
@@ -302,7 +294,7 @@ onMounted(() => {
                 :items="
                   categories.map((category) => ({
                     label: category.name,
-                    value: category.id,
+                    id: category.id,
                   }))
                 "
               />

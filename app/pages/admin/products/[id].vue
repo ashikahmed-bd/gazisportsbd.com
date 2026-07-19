@@ -14,6 +14,15 @@ const { categories } = storeToRefs(categoryStore);
 const { brands } = storeToRefs(brandStore);
 const { clubs } = storeToRefs(clubStore);
 
+const categoryItems = computed(() =>
+  Array.isArray(categories.value)
+    ? categories.value.map((category) => ({
+        label: category.name,
+        id: category.id,
+      }))
+    : [],
+);
+
 const loadCategories = async () => {
   await categoryStore.search();
 };
@@ -113,26 +122,32 @@ const mediaUpload = async () => {
 const loadProduct = async (id) => {
   const product = await productStore.show(id);
 
-  form.category_id = product.category.id;
-  form.brand_id = product.brand.id;
-  form.club_id = product.club.id;
+  console.log(product);
 
-  form.name = product.name;
-  form.slug = product.slug;
+  form.category_id = product.category?.id ?? null;
+  form.brand_id = product.brand?.id ?? null;
+  form.club_id = product.club?.id ?? null;
 
-  form.highlights = product.highlights;
-  form.description = product.description;
-  form.options = Object.entries(product.options).map(([name, values]) => ({
-    name,
-    values: values.join(", "),
-  }));
-  form.base_price = product.base_price;
-  form.price = product.price;
-  form.stock = product.stock;
-  form.gender = product.gender;
-  form.meta_title = product.meta_title;
-  form.meta_description = product.meta_description;
-  form.meta_keywords = product.meta_keywords;
+  form.name = product.name ?? "";
+  form.slug = product.slug ?? "";
+
+  form.highlights = product.highlights ?? "";
+  form.description = product.description ?? "";
+
+  form.options = Object.entries(product.options ?? {}).map(
+    ([name, values]) => ({
+      name,
+      values: Array.isArray(values) ? values.join(", ") : "",
+    }),
+  );
+
+  form.base_price = product.base_price ?? null;
+  form.price = product.price ?? null;
+  form.stock = product.stock ?? null;
+  form.gender = product.gender ?? null;
+  form.meta_title = product.meta_title ?? "";
+  form.meta_description = product.meta_description ?? "";
+  form.meta_keywords = product.meta_keywords ?? "";
 };
 
 onMounted(async () => {
@@ -340,7 +355,10 @@ onMounted(async () => {
                 label="Categories"
                 v-model="form.category_id"
                 :items="
-                  categories?.map((category) => ({
+                  (Array.isArray(categories)
+                    ? categories
+                    : categories?.data || []
+                  ).map((category) => ({
                     label: category.name,
                     id: category.id,
                   }))
@@ -351,10 +369,12 @@ onMounted(async () => {
                 label="Brands"
                 v-model="form.brand_id"
                 :items="
-                  brands?.map((brand) => ({
-                    label: brand.name,
-                    id: brand.id,
-                  }))
+                  (Array.isArray(brands) ? brands : brands?.data || []).map(
+                    (brand) => ({
+                      label: brand.name,
+                      id: brand.id,
+                    }),
+                  )
                 "
               />
 
@@ -362,10 +382,12 @@ onMounted(async () => {
                 label="Clubs"
                 v-model="form.club_id"
                 :items="
-                  clubs?.map((club) => ({
-                    label: club.name,
-                    id: club.id,
-                  }))
+                  (Array.isArray(clubs) ? clubs : clubs?.data || []).map(
+                    (club) => ({
+                      label: club.name,
+                      id: club.id,
+                    }),
+                  )
                 "
               />
 
