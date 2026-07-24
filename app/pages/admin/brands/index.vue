@@ -10,6 +10,11 @@ const loadBrands = async () => {
   await brandStore.all();
 };
 
+const deleteBrand = async (brand) => {
+  await brandStore.delete(brand);
+  await loadBrands();
+};
+
 onMounted(() => {
   loadBrands();
 });
@@ -115,8 +120,17 @@ onMounted(() => {
 
                 <td>
                   <div class="flex justify-end gap-2">
-                    <button class="action__edit">Edit</button>
-                    <button class="action__delete">Delete</button>
+                    <NuxtLink
+                      :to="`/admin/brands/${brand.id}`"
+                      class="action__edit"
+                      >Edit</NuxtLink
+                    >
+                    <button
+                      @click="deleteBrand(brand.id)"
+                      class="action__delete"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </td>
               </tr>

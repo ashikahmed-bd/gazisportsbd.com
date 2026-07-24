@@ -87,11 +87,15 @@ export const useCategoryStore = defineStore("category", {
 
     async media(category, payload) {
       const { $api } = useNuxtApp();
+      const toast = useToast();
       this.loading = true;
       try {
         const response = await $api(`/api/v1/categories/${category}/media`, {
           method: "POST",
           body: payload,
+        });
+        toast.add({
+          title: response.message,
         });
         return response;
       } catch (error) {

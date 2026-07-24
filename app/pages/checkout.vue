@@ -6,6 +6,16 @@ const { data, error, pending, refresh } = await useAsyncData("cart", () => {
   return cartStore.getItems();
 });
 
+const updateShipping = async () => {
+  if (!form.state) return;
+
+  await cartStore.shipping({
+    zone: form.state,
+  });
+
+  await refresh();
+};
+
 const paymentMethods = [
   {
     label: "Cash on Delivery",
@@ -265,14 +275,25 @@ const submit = async () => {
                     <span class="text-red-500">*</span>
                   </label>
 
-                  <input
+                  <select
+                    @change="
+                      cartStore.shipping({ zone: form.state });
+                      refresh();
+                    "
                     id="checkout-state"
                     v-model="form.state"
-                    type="text"
-                    autocomplete="address-level1"
-                    placeholder="For example, Dhaka Division"
-                    class="w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/10"
-                  />
+                    class="h-11 w-full rounded-xl border border-gray-300 bg-white px-4 text-sm outline-none transition focus:border-primary"
+                  >
+                    <option value="" disabled>Select Division</option>
+                    <option value="Dhaka">Dhaka</option>
+                    <option value="Chattogram">Chattogram</option>
+                    <option value="Rajshahi">Rajshahi</option>
+                    <option value="Khulna">Khulna</option>
+                    <option value="Barishal">Barishal</option>
+                    <option value="Sylhet">Sylhet</option>
+                    <option value="Rangpur">Rangpur</option>
+                    <option value="Mymensingh">Mymensingh</option>
+                  </select>
                 </div>
 
                 <div>

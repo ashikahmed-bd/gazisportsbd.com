@@ -10,6 +10,11 @@ const loadProducts = async () => {
   await productStore.all();
 };
 
+const deleteProduct = async (product) => {
+  await productStore.delete(product);
+  await loadProducts();
+};
+
 onMounted(() => {
   loadProducts();
 });
@@ -120,7 +125,12 @@ onMounted(() => {
                       class="action__edit"
                       >Edit</NuxtLink
                     >
-                    <button class="action__delete">Delete</button>
+                    <button
+                      @click="deleteProduct(product.id)"
+                      class="action__delete"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </td>
               </tr>

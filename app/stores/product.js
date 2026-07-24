@@ -66,6 +66,23 @@ export const useProductStore = defineStore("product", {
       }
     },
 
+    async delete(product) {
+      const { $api } = useNuxtApp();
+      const toast = useToast();
+      try {
+        const response = await $api(`/api/v1/products/${product}`, {
+          method: "DELETE",
+        });
+        toast.add({
+          title: response.message,
+        });
+        return response;
+      } catch (error) {
+        this.errors = error?.response?._data?.errors;
+        throw error;
+      }
+    },
+
     async media(product, payload) {
       const { $api } = useNuxtApp();
       this.loading = true;

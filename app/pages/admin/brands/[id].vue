@@ -4,6 +4,7 @@ definePageMeta({
 });
 
 const brandStore = useBrandStore();
+const route = useRoute();
 
 const form = reactive({
   name: "",
@@ -16,26 +17,35 @@ const form = reactive({
   active: true,
 });
 
-const submit = async () => {
-  await brandStore.store(form);
+const loadBrand = async () => {
+  const response = await brandStore.show(route.params.id);
+
   Object.assign(form, {
-    name: "",
-    slug: "",
-    logo_url: null,
-    country: "",
-    meta_title: "",
-    meta_keywords: "",
-    meta_description: "",
-    active: true,
+    name: response.name ?? "",
+    slug: response.slug ?? "",
+    logo_url: response.logo_url ?? null,
+    country: response.country ?? "",
+    meta_title: response.meta_title ?? "",
+    meta_keywords: response.meta_keywords ?? "",
+    meta_description: response.meta_description ?? "",
+    active: response.active ?? true,
   });
 };
+
+const submit = async () => {
+  await brandStore.update(route.params.id, form);
+};
+
+onMounted(() => {
+  loadBrand();
+});
 </script>
 
 <template>
   <main class="max-w-5xl mx-auto space-y-6">
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Create Brand</h1>
+        <h1 class="text-2xl font-bold text-gray-900">Update Brand</h1>
         <p class="mt-1 text-sm text-gray-500">Add a new brand to your store.</p>
       </div>
 

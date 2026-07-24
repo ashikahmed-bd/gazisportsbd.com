@@ -136,6 +136,22 @@ export const useCartStore = defineStore("cart", {
       }
     },
 
+    async shipping(zone) {
+      const { $api } = useNuxtApp();
+
+      try {
+        const response = await $api("/api/cart/shipping", {
+          method: "PUT",
+          body: zone,
+        });
+
+        return response;
+      } catch (error) {
+        this.errors = error?.response?._data?.errors;
+        throw error;
+      }
+    },
+
     async checkout(payload) {
       const { $api } = useNuxtApp();
       this.loading = true;
