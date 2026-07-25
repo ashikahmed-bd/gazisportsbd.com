@@ -52,6 +52,7 @@ onMounted(() => {
           <table>
             <thead>
               <tr>
+                <th>League</th>
                 <th>Name</th>
                 <th>Logo</th>
                 <th>Country</th>
@@ -63,48 +64,55 @@ onMounted(() => {
             </thead>
 
             <tbody>
-              <tr v-for="league in clubs.data" :key="league.id">
+              <tr v-for="club in clubs.data" :key="club.id">
+                <td>
+                  {{ club.league?.name }}
+                </td>
                 <td>
                   <h3 class="font-semibold text-gray-900">
-                    {{ league.name }}
+                    {{ club.name }}
                   </h3>
                   <span class="text-xs font-medium">
-                    {{ league.slug }}
+                    {{ club.slug }}
                   </span>
                 </td>
 
                 <td>
                   <NuxtImg
-                    :src="league.logo_url"
-                    :alt="league.name"
+                    :src="club.logo_url"
+                    :alt="club.name"
                     class="size-12 rounded object-cover"
                   />
                 </td>
                 <td>
-                  {{ league.country || "-" }}
+                  {{ club.country || "-" }}
                 </td>
                 <td>
-                  {{ league.founded_year || "-" }}
+                  {{ club.founded_year || "-" }}
                 </td>
                 <td>
-                  {{ league.stadium || "-" }}
+                  {{ club.stadium || "-" }}
                 </td>
                 <td>
                   <span
                     :class="
-                      league.active
+                      club.active
                         ? 'bg-green-100 text-green-700'
                         : 'bg-red-100 text-red-700'
                     "
                     class="rounded-full px-3 py-1 text-xs font-semibold"
                   >
-                    {{ league.active ? "Active" : "Inactive" }}
+                    {{ club.active ? "Active" : "Inactive" }}
                   </span>
                 </td>
 
                 <td>
                   <div class="flex justify-end gap-2">
-                    <button class="action__edit">Edit</button>
+                    <NuxtLink
+                      :to="`/admin/clubs/${club.id}`"
+                      class="action__edit"
+                      >Edit</NuxtLink
+                    >
                     <button class="action__delete">Delete</button>
                   </div>
                 </td>

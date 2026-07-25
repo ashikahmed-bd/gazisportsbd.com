@@ -9,7 +9,6 @@ const form = reactive({
   name: "",
   slug: "",
   logo_url: null,
-  country: "",
   meta_title: "",
   meta_keywords: "",
   meta_description: "",
@@ -22,7 +21,6 @@ const submit = async () => {
     name: "",
     slug: "",
     logo_url: null,
-    country: "",
     meta_title: "",
     meta_keywords: "",
     meta_description: "",
@@ -52,37 +50,28 @@ const submit = async () => {
         @submit.prevent="submit"
         class="rounded-xl border border-gray-200 bg-white p-6 col-span-2"
       >
-        <div class="grid gap-6 md:grid-cols-2">
-          <BaseInput
-            label="Name"
-            v-model="form.name"
-            placeholder="Enter name"
-            error=""
-          />
+        <BaseInput
+          label="Name"
+          v-model="form.name"
+          placeholder="Enter name"
+          error=""
+        />
 
-          <BaseInput
-            label="Slug"
-            v-model="form.slug"
-            placeholder="Enter slug"
-            error=""
-          />
+        <BaseInput
+          label="Slug"
+          v-model="form.slug"
+          placeholder="Enter slug"
+          error=""
+        />
 
-          <BaseInput
-            label="Country"
-            v-model="form.country"
-            placeholder="Enter country"
-            error=""
-          />
-
-          <BaseSelect
-            label="Active"
-            v-model="form.active"
-            :items="[
-              { label: 'Yes', id: true },
-              { label: 'No', id: false },
-            ]"
-          />
-        </div>
+        <BaseSelect
+          label="Active"
+          v-model="form.active"
+          :items="[
+            { label: 'Yes', id: true },
+            { label: 'No', id: false },
+          ]"
+        />
 
         <BaseInput
           label="Meta Title"
@@ -107,8 +96,6 @@ const submit = async () => {
 
         <BaseButton :loading="brandStore.loading">Submit</BaseButton>
       </form>
-
-      <div class=""></div>
     </div>
   </main>
 </template>

@@ -87,6 +87,24 @@ export const useBrandStore = defineStore("brand", {
       }
     },
 
+    async logo(brand, payload) {
+      const { $api } = useNuxtApp();
+      const toast = useToast();
+      try {
+        const response = await $api(`/api/v1/brands/${brand}/logo`, {
+          method: "POST",
+          body: payload,
+        });
+        toast.add({
+          title: response.message,
+        });
+        return response;
+      } catch (error) {
+        this.errors = error?.response?._data?.errors;
+        throw error;
+      }
+    },
+
     async search() {
       const { $api } = useNuxtApp();
       try {

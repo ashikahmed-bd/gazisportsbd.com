@@ -69,7 +69,6 @@ onMounted(() => {
                 <th>Logo</th>
                 <th>Brand</th>
                 <th>Slug</th>
-                <th>Country</th>
                 <th>Status</th>
                 <th>Created</th>
                 <th class="text-right">Action</th>
@@ -99,9 +98,6 @@ onMounted(() => {
                   </span>
                 </td>
 
-                <td c>
-                  {{ brand.country || "-" }}
-                </td>
                 <td>
                   <span
                     :class="

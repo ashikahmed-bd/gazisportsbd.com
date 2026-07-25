@@ -22,8 +22,38 @@ const form = reactive({
   meta_description: "",
 });
 
+const media = reactive({
+  logo: null,
+});
+
+const logoUpload = async () => {
+  if (!media.logo) return;
+
+  const formData = new FormData();
+  formData.append("logo", media.logo);
+
+  await clubStore.logo(route.params.id, formData);
+};
+
+const loadClub = async () => {
+  const response = await clubStore.show(route.params.id);
+
+  Object.assign(form, {
+    name: response.name ?? "",
+    slug: response.slug ?? "",
+    league_id: response.league?.id ?? "",
+    country: response.country ?? "",
+    founded_year: response.founded_year ?? "",
+    stadium: response.stadium ?? "",
+    active: response.active ?? true,
+    meta_title: response.meta_title ?? "",
+    meta_keywords: response.meta_keywords ?? "",
+    meta_description: response.meta_description ?? "",
+  });
+};
+
 const submit = async () => {
-  await clubStore.store(form);
+  await clubStore.update(route.params.id, form);
 };
 
 const loadLeagues = async () => {
@@ -32,6 +62,7 @@ const loadLeagues = async () => {
 
 onMounted(() => {
   loadLeagues();
+  loadClub();
 });
 </script>
 
@@ -137,6 +168,13 @@ onMounted(() => {
         />
 
         <BaseButton :loading="clubStore.loading">Submit</BaseButton>
+      </form>
+
+      <form @submit.prevent="logoUpload">
+        <BaseFile v-model="media.logo" label="Logo" />
+        <BaseButton :loading="clubStore.loading" class="w-full">
+          Upload
+        </BaseButton>
       </form>
     </div>
   </main>

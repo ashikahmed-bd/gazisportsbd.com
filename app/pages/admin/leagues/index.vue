@@ -102,7 +102,11 @@ onMounted(() => {
 
                 <td>
                   <div class="flex justify-end gap-2">
-                    <button class="action__edit">Edit</button>
+                    <NuxtLink
+                      :to="`/admin/leagues/${league.id}`"
+                      class="action__edit"
+                      >Edit</NuxtLink
+                    >
                     <button class="action__delete">Delete</button>
                   </div>
                 </td>

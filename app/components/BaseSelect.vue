@@ -1,7 +1,7 @@
 <script setup>
 const props = defineProps({
   label: String,
-  modelValue: [String, Number],
+  modelValue: [String, Number, Boolean],
   items: {
     type: Array,
     default: () => [],
