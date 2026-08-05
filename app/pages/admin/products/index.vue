@@ -77,7 +77,7 @@ onMounted(() => {
 
             <tbody>
               <tr v-for="product in products.data" :key="product.id">
-                <td class="truncate">
+                <td class="max-w-xs truncate">
                   <div class="flex items-center gap-4">
                     <img
                       :src="product.cover_url"
@@ -119,17 +119,29 @@ onMounted(() => {
                 </td>
 
                 <td>
-                  <div class="flex justify-end gap-2">
+                  <div class="flex items-center justify-end gap-2">
+                    <a
+                      :href="`/admin/products/${product.id}/variants`"
+                      class="action__variant"
+                      title="Variants"
+                    >
+                      <UIcon name="i-lucide-layers" class="size-5" />
+                    </a>
+
                     <a
                       :href="`/admin/products/${product.id}`"
                       class="action__edit"
-                      >Edit</a
+                      title="Edit"
                     >
+                      <UIcon name="i-lucide-pencil" class="size-5" />
+                    </a>
+
                     <button
                       @click="deleteProduct(product.id)"
                       class="action__delete"
+                      title="Delete"
                     >
-                      Delete
+                      <UIcon name="i-lucide-trash-2" class="size-5" />
                     </button>
                   </div>
                 </td>

@@ -120,20 +120,6 @@ const buyNow = async (product) => {
                 >
                   -{{ product.discount_percentage }}%
                 </span>
-
-                <span
-                  v-if="product.stock > 0"
-                  class="bg-green-100 text-green-700 text-xs sm:text-sm font-semibold px-2 py-1 rounded"
-                >
-                  In Stock
-                </span>
-
-                <span
-                  v-else
-                  class="bg-red-100 text-red-700 text-xs sm:text-sm font-semibold px-2 py-1 rounded"
-                >
-                  Out of Stock
-                </span>
               </div>
 
               <div
@@ -195,8 +181,8 @@ const buyNow = async (product) => {
                 </div>
               </div>
 
-              {{ selectedVariant }}
               <ProductVariant
+                v-if="product.variants.length > 0"
                 :variants="product.variants"
                 @select="selectedVariant = $event"
               />
