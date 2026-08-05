@@ -110,7 +110,7 @@ export const useClubStore = defineStore("club", {
       }
     },
 
-    async search() {
+    async search(query) {
       const { $api } = useNuxtApp();
       try {
         const response = await $api(`/api/v1/search/clubs`, {

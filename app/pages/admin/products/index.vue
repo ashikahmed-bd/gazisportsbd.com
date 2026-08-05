@@ -55,9 +55,9 @@ onMounted(() => {
             </svg>
           </div>
 
-          <NuxtLink to="/admin/products/create" class="base__button">
+          <a href="/admin/products/create" class="base__button">
             Add Product
-          </NuxtLink>
+          </a>
         </div>
       </div>
 
@@ -120,10 +120,10 @@ onMounted(() => {
 
                 <td>
                   <div class="flex justify-end gap-2">
-                    <NuxtLink
-                      :to="`/admin/products/${product.id}`"
+                    <a
+                      :href="`/admin/products/${product.id}`"
                       class="action__edit"
-                      >Edit</NuxtLink
+                      >Edit</a
                     >
                     <button
                       @click="deleteProduct(product.id)"

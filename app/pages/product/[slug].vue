@@ -18,22 +18,13 @@ const {
 
 const quantity = ref(1);
 
-const increaseQuantity = () => {
-  quantity.value++;
-};
-
-const decreaseQuantity = () => {
-  if (quantity.value > 1) {
-    quantity.value--;
-  }
-};
-const selectedOptions = reactive({});
+const selectedVariant = ref(null);
 
 const addToCart = async (product) => {
   await cartStore.add({
     product_id: product.id,
+    variant_id: selectedVariant.value?.id,
     quantity: Number(quantity.value),
-    options: { ...selectedOptions },
   });
 
   navigateTo("/cart");
@@ -42,8 +33,8 @@ const addToCart = async (product) => {
 const buyNow = async (product) => {
   await cartStore.buyNow({
     product_id: product.id,
+    variant_id: selectedVariant.value?.id,
     quantity: Number(quantity.value),
-    options: { ...selectedOptions },
   });
 
   navigateTo("/checkout");
@@ -204,37 +195,11 @@ const buyNow = async (product) => {
                 </div>
               </div>
 
-              <div
-                v-if="product.options && Object.keys(product.options).length"
-                class="space-y-6"
-              >
-                <div v-for="(values, name) in product.options" :key="name">
-                  <div class="flex items-center justify-between mb-3">
-                    <span
-                      class="text-xs font-semibold tracking-widest text-gray-500 uppercase"
-                    >
-                      Select {{ name }}
-                    </span>
-                  </div>
-
-                  <div class="flex flex-wrap gap-2">
-                    <button
-                      v-for="value in values"
-                      :key="value"
-                      type="button"
-                      @click="selectedOptions[name] = value"
-                      :class="[
-                        'px-4 py-2 rounded-lg border text-sm font-medium transition-all',
-                        selectedOptions[name] === value
-                          ? 'bg-gray-900 text-white border-gray-900'
-                          : 'bg-white text-gray-700 border-gray-200 hover:border-gray-400',
-                      ]"
-                    >
-                      {{ value }}
-                    </button>
-                  </div>
-                </div>
-              </div>
+              {{ selectedVariant }}
+              <ProductVariant
+                :variants="product.variants"
+                @select="selectedVariant = $event"
+              />
 
               <div class="space-y-4">
                 <div
@@ -248,7 +213,7 @@ const buyNow = async (product) => {
                     <button
                       type="button"
                       @click="quantity > 1 && quantity--"
-                      :disabled="quantity <= 1 || !product.in_stock"
+                      :disabled="quantity <= 1"
                       class="flex h-11 w-11 items-center justify-center text-gray-600 transition hover:bg-gray-100 hover:text-black disabled:opacity-40"
                     >
                       <UIcon name="i-lucide-minus" class="size-4" />
@@ -258,14 +223,12 @@ const buyNow = async (product) => {
                       v-model.number="quantity"
                       type="number"
                       min="1"
-                      :disabled="!product.in_stock"
                       class="h-11 w-14 border-x border-gray-200 text-center text-base font-bold outline-none"
                     />
 
                     <button
                       type="button"
                       @click="quantity++"
-                      :disabled="!product.in_stock"
                       class="flex h-11 w-11 items-center justify-center text-gray-600 transition hover:bg-gray-100 hover:text-black disabled:opacity-40"
                     >
                       <UIcon name="i-lucide-plus" class="size-4" />
@@ -277,7 +240,7 @@ const buyNow = async (product) => {
                   <BaseButton
                     @click="addToCart(product)"
                     :loading="cartStore.loading"
-                    :disabled="!product.in_stock"
+                    :disabled="cartStore.loading"
                     class="rounded text-base font-semibold transition hover:scale-105"
                   >
                     <UIcon name="i-lucide-shopping-cart" class="mr-2 size-5" />
@@ -287,7 +250,7 @@ const buyNow = async (product) => {
                   <button
                     type="button"
                     @click="buyNow(product)"
-                    :disabled="!product.in_stock || cartStore.loading"
+                    :disabled="cartStore.loading"
                     class="inline-flex items-center justify-center px-4 py-2.5 rounded bg-black text-gray-100 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <template v-if="cartStore.loading">

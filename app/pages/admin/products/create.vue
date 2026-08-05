@@ -34,13 +34,10 @@ const form = reactive({
   slug: "",
 
   highlights: null,
-
   description: null,
 
-  options: [],
   base_price: 0,
   price: 0,
-  stock: 0,
 
   gender: "unisex",
 
@@ -52,37 +49,13 @@ const form = reactive({
   meta_description: "",
 });
 
-const addOption = () => {
-  form.options.push({
-    name: "",
-    values: "",
-  });
-};
-
-const removeOption = (index) => {
-  form.options.splice(index, 1);
-};
-
 const submit = async () => {
-  const payload = {
-    ...form,
-    options: Object.fromEntries(
-      form.options
-        .filter((item) => item.name)
-        .map((item) => [
-          item.name,
-          item.values
-            .split(",")
-            .map((v) => v.trim())
-            .filter(Boolean),
-        ]),
-    ),
-  };
-
-  const response = await productStore.store(payload);
+  const response = await productStore.store(form);
   toast.add({
     title: response.message,
   });
+
+  navigateTo("/admin/products");
 };
 
 onMounted(() => {
@@ -101,12 +74,12 @@ onMounted(() => {
           <p class="text-sm text-gray-500">Add a new product.</p>
         </div>
 
-        <NuxtLink
-          to="/admin/products"
+        <a
+          href="/admin/products"
           class="bg-accent text-white rounded px-4 py-2"
         >
           Back
-        </NuxtLink>
+        </a>
       </div>
 
       <div class="card__body">
@@ -143,73 +116,6 @@ onMounted(() => {
                 placeholder="Enter description"
                 :rows="8"
               />
-              <div class="space-y-6">
-                <div class="flex items-center justify-between">
-                  <h2 class="text-lg font-semibold">Product Options</h2>
-
-                  <button
-                    type="button"
-                    @click="addOption"
-                    class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white hover:opacity-90"
-                  >
-                    <UIcon name="i-lucide-plus" class="h-5 w-5" />
-                  </button>
-                </div>
-
-                <div
-                  v-for="(option, index) in form.options"
-                  :key="index"
-                  class="rounded-xl border border-gray-200 bg-white p-4"
-                >
-                  <div class="flex flex-wrap items-end gap-4">
-                    <div class="w-56">
-                      <label
-                        class="mb-2 block text-sm font-medium text-gray-700"
-                      >
-                        Name
-                      </label>
-
-                      <select
-                        v-model="option.name"
-                        class="h-10 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm outline-none transition focus:border-primary"
-                      >
-                        <option value="" disabled>Select Option</option>
-                        <option value="size">Size</option>
-                        <option value="color">Color</option>
-                        <option value="material">Material</option>
-                        <option value="fit">Fit</option>
-                      </select>
-                    </div>
-
-                    <div class="min-w-0 flex-1">
-                      <label
-                        class="mb-2 block text-sm font-medium text-gray-700"
-                      >
-                        Options
-                        <span class="text-xs text-gray-500">
-                          Separate values with commas.
-                        </span>
-                      </label>
-
-                      <input
-                        v-model="option.values"
-                        type="text"
-                        placeholder="S, M, L, XL"
-                        class="h-10 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none transition focus:border-primary"
-                      />
-                    </div>
-
-                    <!-- Delete -->
-                    <button
-                      type="button"
-                      @click="removeOption(index)"
-                      class="flex h-10 w-10 shrink-0 self-end items-center justify-center rounded-lg border border-red-200 text-red-500 transition hover:bg-red-50"
-                    >
-                      <UIcon name="i-lucide-trash-2" class="h-5 w-5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div class="w-full">
@@ -245,6 +151,7 @@ onMounted(() => {
 
             <div class="block">
               <BaseInput
+                type="number"
                 label="Base Price"
                 v-model="form.base_price"
                 error=""
@@ -252,17 +159,11 @@ onMounted(() => {
               />
 
               <BaseInput
+                type="number"
                 label="Selling Price"
                 v-model="form.price"
                 error=""
                 placeholder="Selling Price"
-              />
-
-              <BaseInput
-                label="Stock"
-                v-model="form.stock"
-                error=""
-                placeholder="Stock"
               />
 
               <BaseSelect
