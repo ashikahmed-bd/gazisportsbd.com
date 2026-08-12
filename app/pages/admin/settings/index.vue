@@ -12,8 +12,8 @@ const form = reactive({
   currency: "BDT",
   shipping_fee: 120,
 
-  facebook: "",
-  instagram: "",
+  facebook: "https://www.facebook.com/profile.php?id=61567802019081",
+  instagram: "https://www.instagram.com/omarfarukomi_500",
   youtube: "",
 
   maintenance_mode: false,
