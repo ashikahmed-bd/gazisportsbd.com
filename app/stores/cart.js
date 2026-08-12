@@ -23,10 +23,14 @@ export const useCartStore = defineStore("cart", {
     async add(payload) {
       this.loading = true;
       const { $api } = useNuxtApp();
+      const toast = useToast();
       try {
         const response = await $api("/api/cart", {
           method: "POST",
           body: payload,
+        });
+        toast.add({
+          title: response.message,
         });
         return response.data;
       } catch (error) {

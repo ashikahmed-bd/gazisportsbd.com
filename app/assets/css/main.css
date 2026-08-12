@@ -148,7 +148,7 @@
     @apply mb-2 block text-sm font-semibold text-gray-800;
   }
   .form__input {
-    @apply h-11 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm text-gray-700 outline-none transition placeholder:text-gray-400;
+    @apply w-full rounded border border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 outline-none transition placeholder:text-gray-400;
     @apply focus:border-blue-500 focus:ring-4 focus:ring-blue-100;
     @apply disabled:cursor-not-allowed disabled:bg-gray-100;
   }

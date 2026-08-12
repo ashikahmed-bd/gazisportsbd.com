@@ -114,9 +114,6 @@ const {
       </nav>
 
       <div class="flex items-center gap-4">
-        <button class="hover:text-primary">
-          <UIcon name="i-lucide-search" class="h-5 w-5" />
-        </button>
         <a href="/cart" class="relative hover:text-primary">
           <UIcon name="i-lucide-shopping-cart" class="h-5 w-5" />
           <span

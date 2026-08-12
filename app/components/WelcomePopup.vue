@@ -105,7 +105,7 @@ onBeforeUnmount(() => {
                 >
                   <div class="px-2">
                     <p
-                      class="text-[11px] font-semibold uppercase tracking-widest text-gray-500"
+                      class="text-xs font-semibold uppercase tracking-widest text-gray-500"
                     >
                       Coupon Code
                     </p>
@@ -131,9 +131,8 @@ onBeforeUnmount(() => {
                   </button>
                 </div>
 
-                <!-- Shop button -->
                 <NuxtLink
-                  to="/products"
+                  to="/shop"
                   class="mt-8 flex w-full items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-4 text-base font-bold text-white shadow-lg shadow-primary/25 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/30"
                   @click="closePopup"
                 >

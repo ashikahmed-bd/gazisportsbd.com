@@ -4,38 +4,44 @@ definePageMeta({
 });
 
 const route = useRoute();
+const productStore = useProductStore();
 
-const variants = ref([
-  {
-    size: "",
-    color: "",
-    price: 0,
-    stock: 0,
-    sku: "",
-  },
-]);
+const form = reactive({
+  variants: [
+    {
+      size: "",
+      color: "",
+      sleeves: "",
+      type: "",
+      price: 0,
+      stock: 0,
+    },
+  ],
+});
 
 const addVariant = () => {
-  variants.value.push({
+  form.variants.push({
     size: "",
     color: "",
+    sleeves: "",
+    type: "",
     price: 0,
     stock: 0,
-    sku: "",
   });
 };
 
 const removeVariant = (index) => {
-  variants.value.splice(index, 1);
+  form.variants.splice(index, 1);
 };
 
 const submit = async () => {
-  const payload = {
-    variants: variants.value,
-  };
-
-  console.log(payload);
+  await productStore.variants(route.params.id, form);
 };
+
+onMounted(async () => {
+  const response = await productStore.show(route.params.id);
+  form.variants = response.variants;
+});
 </script>
 
 <template>
@@ -43,7 +49,7 @@ const submit = async () => {
     <div class="card">
       <div class="card__header flex justify-between">
         <div>
-          <h1 class="text-2xl font-bold">Add Product Variants</h1>
+          <h1 class="text-2xl font-bold">Add Variants</h1>
 
           <p class="text-sm text-gray-500">Product ID: {{ route.params.id }}</p>
         </div>
@@ -53,74 +59,101 @@ const submit = async () => {
         </button>
       </div>
 
-      <div class="card__body space-y-4">
+      <div class="card__body space-y-3">
         <div
-          v-for="(variant, index) in variants"
+          v-for="(variant, index) in form.variants"
           :key="index"
-          class="grid gap-4 rounded border border-border p-2.5 md:grid-cols-6"
+          class="grid items-end gap-3 rounded-xl border border-border p-3 lg:grid-cols-7"
         >
-          <div>
-            <label class="form__label"> Size </label>
+          <!-- Size -->
+          <div class="form__group">
+            <label class="form__label">Size</label>
+
             <input
               v-model="variant.size"
-              placeholder="Enter size"
+              type="text"
+              placeholder="Size"
               class="form__input"
             />
           </div>
 
-          <div>
-            <label class="form__label"> Color </label>
+          <!-- Color -->
+          <div class="form__group">
+            <label class="form__label">Color</label>
+
             <input
               v-model="variant.color"
-              placeholder="Enter color"
+              type="text"
+              placeholder="Color"
               class="form__input"
             />
           </div>
 
-          <div>
-            <label class="form__label"> Price </label>
+          <!-- Sleeves -->
+          <div class="form__group">
+            <label class="form__label">Sleeves</label>
+
+            <select v-model="variant.sleeves" class="form__input">
+              <option value="">Select</option>
+              <option value="Half Sleeve">Half Sleeve</option>
+              <option value="Full Sleeve">Full Sleeve</option>
+            </select>
+          </div>
+
+          <!-- Type -->
+          <div class="form__group">
+            <label class="form__label">Type</label>
+
+            <select v-model="variant.type" class="form__input">
+              <option value="">Select</option>
+              <option value="Home">Home</option>
+              <option value="Away">Away</option>
+            </select>
+          </div>
+
+          <!-- Price -->
+          <div class="form__group">
+            <label class="form__label">Price</label>
+
             <input
               v-model.number="variant.price"
               type="number"
-              placeholder="Enter price"
+              min="0"
+              step="0.01"
+              placeholder="Price"
               class="form__input"
             />
           </div>
 
-          <div>
-            <label class="form__label"> Stock </label>
+          <!-- Stock -->
+          <div class="form__group">
+            <label class="form__label">Stock</label>
+
             <input
               v-model.number="variant.stock"
               type="number"
-              placeholder="Enter stock"
+              min="0"
+              placeholder="Stock"
               class="form__input"
             />
           </div>
 
-          <div>
-            <label class="form__label"> SKU </label>
-            <input
-              v-model="variant.sku"
-              placeholder="Enter SKU"
-              class="form__input"
-            />
-          </div>
-
-          <div class="flex items-end">
-            <button
-              v-if="variants.length > 1"
-              @click="removeVariant(index)"
-              type="button"
-              class="flex h-11 w-11 items-center justify-center rounded-xl border border-red-200 text-red-500 transition hover:bg-red-50"
-              title="Remove"
-            >
-              <UIcon name="i-lucide-trash-2" class="size-5" />
-            </button>
-          </div>
+          <!-- Remove -->
+          <button
+            v-if="form.variants.length > 1"
+            type="button"
+            @click="removeVariant(index)"
+            class="flex h-10 items-center justify-center rounded-xl border border-red-200 text-red-500 transition hover:bg-red-50"
+            title="Remove variant"
+          >
+            <UIcon name="i-lucide-trash-2" class="size-5" />
+          </button>
         </div>
 
-        <div class="flex justify-end">
-          <button @click="submit" class="base__button">Save Variants</button>
+        <div class="flex justify-end pt-2">
+          <BaseButton :loading="productStore.loading" @click="submit"
+            >Save Variants</BaseButton
+          >
         </div>
       </div>
     </div>

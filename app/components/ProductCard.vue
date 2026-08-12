@@ -21,6 +21,7 @@ defineProps({
       </NuxtLink>
 
       <button
+        v-if="false"
         class="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow transition hover:shadow-md"
       >
         <UIcon
