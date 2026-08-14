@@ -91,6 +91,7 @@ onMounted(() => {
                 label="Name"
                 v-model="form.name"
                 error=""
+                :required="true"
                 placeholder="Enter name"
               />
 
@@ -98,6 +99,7 @@ onMounted(() => {
                 label="Slug"
                 v-model="form.slug"
                 error=""
+                :required="true"
                 placeholder="Enter slug"
               />
 
@@ -105,16 +107,16 @@ onMounted(() => {
                 label="Highlights"
                 v-model="form.highlights"
                 error=""
+                :required="true"
                 placeholder="Enter highlights"
                 :rows="6"
               />
 
-              <BaseTextarea
+              <BaseEditor
                 label="Description"
                 v-model="form.description"
                 error=""
-                placeholder="Enter description"
-                :rows="8"
+                :required="true"
               />
             </div>
 
@@ -126,6 +128,7 @@ onMounted(() => {
                   label="Meta Title"
                   v-model="form.meta_title"
                   error=""
+                  :required="true"
                   placeholder="Meta Title"
                 />
 
@@ -133,6 +136,7 @@ onMounted(() => {
                   label="Meta Description"
                   v-model="form.meta_description"
                   error=""
+                  :required="true"
                   placeholder="Meta Description"
                 />
 
@@ -140,6 +144,7 @@ onMounted(() => {
                   label="Meta Keywords"
                   v-model="form.meta_keywords"
                   error=""
+                  :required="true"
                   placeholder="Meta Keywords"
                 />
               </div>

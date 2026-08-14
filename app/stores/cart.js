@@ -2,7 +2,6 @@ export const useCartStore = defineStore("cart", {
   state: () => ({
     loading: false,
     errors: {},
-    cart: null,
   }),
 
   getters: {},
@@ -12,7 +11,6 @@ export const useCartStore = defineStore("cart", {
       const { $api } = useNuxtApp();
       try {
         const response = await $api("/api/cart");
-        this.cart = response.data;
         return response.data;
       } catch (error) {
         this.errors = error?.response?._data?.errors;

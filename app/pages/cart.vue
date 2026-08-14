@@ -33,7 +33,7 @@ const clear = async () => {
 };
 
 const coupon = reactive({
-  code: "",
+  code: cart.value.coupon_code ?? "",
 });
 
 const applyCoupon = async () => {
@@ -41,15 +41,11 @@ const applyCoupon = async () => {
 
   const response = await couponStore.apply(coupon);
 
-  console.log(error?.response?._data?.message);
-
   toast.add({
     title: response.message,
   });
 
-  toast.add({
-    title: response.message,
-  });
+  await refresh();
 };
 </script>
 

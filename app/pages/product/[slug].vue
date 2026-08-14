@@ -121,11 +121,7 @@ const buyNow = async (product) => {
                 </span>
               </div>
 
-              <div
-                v-if="product.highlights"
-                class="text-xs sm:text-sm text-gray-600 leading-relaxed prose-ul:list-disc prose-ul:pl-5"
-                v-html="product.highlights"
-              />
+              <MDC :value="product.highlights" class="prose max-w-none" />
 
               <ProductVariant
                 :options="product.options"
@@ -205,13 +201,11 @@ const buyNow = async (product) => {
 
           <div
             v-if="product.description"
-            class="mt-10 bg-white rounded-xl border border-gray-100 p-4 sm:p-6"
+            class="mt-10 bg-white rounded-xl border border-border p-4"
           >
             <h2 class="text-lg font-bold text-gray-900 mb-3">Description</h2>
-            <div
-              class="text-sm text-body leading-relaxed"
-              v-html="product.description"
-            />
+
+            <MDC :value="product.description" class="prose max-w-none" />
           </div>
 
           <!-- You May Also Like -->

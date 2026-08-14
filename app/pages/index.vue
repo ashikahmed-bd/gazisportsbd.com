@@ -255,8 +255,13 @@ const {
               item: 'basis-1/2 md:basis-1/4 lg:basis-1/6',
             }"
           >
-            <a
-              href="#"
+            <NuxtLink
+              :to="{
+                path: '/shop',
+                query: {
+                  brand: item.slug,
+                },
+              }"
               class="group flex items-center justify-center rounded-xl border border-gray-100 bg-white p-3 transition"
             >
               <NuxtImg
@@ -264,7 +269,7 @@ const {
                 :alt="item.name"
                 class="w-full object-contain grayscale group-hover:grayscale-0 transition"
               />
-            </a>
+            </NuxtLink>
           </UCarousel>
         </div>
       </section>
@@ -295,19 +300,36 @@ const {
             <div
               class="group cursor-pointer rounded-2xl border border-gray-100 bg-white p-4 text-center transition"
             >
-              <div class="flex items-center justify-center mb-3">
+              <NuxtLink
+                :to="{
+                  path: '/shop',
+                  query: {
+                    league: item.slug,
+                  },
+                }"
+                class="flex items-center justify-center mb-3"
+              >
                 <NuxtImg
                   :src="item.logo_url"
                   :alt="item.name"
                   class="w-full object-cover transition group-hover:scale-110"
                 />
-              </div>
+              </NuxtLink>
 
-              <h3
-                class="text-sm font-bold text-gray-900 uppercase tracking-wide"
+              <NuxtLink
+                :to="{
+                  path: '/shop',
+                  query: {
+                    league: item.slug,
+                  },
+                }"
               >
-                {{ item.name }}
-              </h3>
+                <h3
+                  class="text-sm font-bold text-title hover:text-primary uppercase tracking-wide"
+                >
+                  {{ item.name }}
+                </h3>
+              </NuxtLink>
               <p class="mt-1 text-xs text-gray-500">
                 {{ item.country }}
               </p>
@@ -339,7 +361,12 @@ const {
             }"
           >
             <NuxtLink
-              :to="`/clubs/${item.slug}`"
+              :to="{
+                path: '/shop',
+                query: {
+                  club: item.slug,
+                },
+              }"
               class="group block rounded-2xl border border-gray-100 bg-white p-2.5 text-center transition"
             >
               <div class="flex items-center justify-center mb-3">

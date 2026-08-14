@@ -2,28 +2,23 @@
 const route = useRoute();
 const { $api } = useNuxtApp();
 
-// ✅ filters form
+const page = ref(1);
+
 const form = reactive({
   search: "",
   sort: "latest",
-  page: 1,
+  page: page.value,
   min_price: null,
   max_price: null,
 });
 
-// ✅ reset page when category changes
-watch(
-  () => route.query.category,
-  () => {
-    form.page = 1;
-  },
-);
-
-// ✅ API fetch
 const fetchProducts = () =>
   $api("/api/shop", {
     query: {
       category: route.query.category,
+      brand: route.query.brand,
+      club: route.query.club,
+      league: route.query.league,
       search: form.search,
       sort: form.sort,
       page: form.page,
@@ -40,13 +35,21 @@ const {
 } = await useAsyncData("products", fetchProducts, {
   watch: [
     () => route.query.category,
-    () => form.search,
+    () => route.query.brand,
+    () => route.query.club,
+    () => route.query.league,
     () => form.sort,
     () => form.page,
     () => form.min_price,
     () => form.max_price,
   ],
 });
+
+// Search
+const searchProducts = () => {
+  form.page = 1;
+  refresh();
+};
 </script>
 
 <template>
@@ -112,6 +115,7 @@ const {
     </section>
 
     <LoadingState v-if="pending" />
+
     <ErrorState v-else-if="error" :retry="refresh" />
 
     <template v-else-if="products?.data?.length">
@@ -121,6 +125,15 @@ const {
             v-for="product in products.data"
             :key="product.id"
             :product="product"
+          />
+        </div>
+        <div class="flex justify-center py-8">
+          <UPagination
+            v-model:page="form.page"
+            show-edges
+            :sibling-count="1"
+            :total="products?.meta?.total"
+            :items-per-page="products?.meta?.per_page"
           />
         </div>
       </section>
