@@ -10,10 +10,14 @@ export const useProductStore = defineStore("product", {
   getters: {},
 
   actions: {
-    async all() {
+    async all(page) {
       const { $api } = useNuxtApp();
       try {
-        const response = await $api("/api/v1/products");
+        const response = await $api("/api/v1/products", {
+          query: {
+            page: page,
+          },
+        });
         this.products = response;
         return response;
       } catch (error) {

@@ -3,12 +3,17 @@ definePageMeta({
   layout: "admin",
 });
 
+const page = ref(1);
 const leagueStore = useLeagueStore();
 const { leagues } = storeToRefs(leagueStore);
 
 const loadLeagues = async () => {
-  await leagueStore.all();
+  await leagueStore.all(page.value);
 };
+
+watch(page, async () => {
+  await loadLeagues();
+});
 
 onMounted(() => {
   loadLeagues();
@@ -113,6 +118,16 @@ onMounted(() => {
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <div class="flex justify-center py-8">
+          <UPagination
+            v-model:page="page"
+            show-edges
+            :sibling-count="1"
+            :total="leagues?.meta?.total"
+            :items-per-page="leagues?.meta?.per_page"
+          />
         </div>
       </div>
     </div>

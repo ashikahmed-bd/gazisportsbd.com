@@ -9,10 +9,14 @@ export const useClubStore = defineStore("club", {
   getters: {},
 
   actions: {
-    async all() {
+    async all(page) {
       const { $api } = useNuxtApp();
       try {
-        const response = await $api(`/api/v1/clubs`);
+        const response = await $api(`/api/v1/clubs`, {
+          query: {
+            page: page,
+          },
+        });
         this.clubs = response;
         return response;
       } catch (error) {

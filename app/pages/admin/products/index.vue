@@ -3,17 +3,23 @@ definePageMeta({
   layout: "admin",
 });
 
+const page = ref(1);
+
 const productStore = useProductStore();
 const { products } = storeToRefs(productStore);
 
 const loadProducts = async () => {
-  await productStore.all();
+  await productStore.all(page.value);
 };
 
 const deleteProduct = async (product) => {
   await productStore.delete(product);
   await loadProducts();
 };
+
+watch(page, async () => {
+  await loadProducts();
+});
 
 onMounted(() => {
   loadProducts();
@@ -148,6 +154,16 @@ onMounted(() => {
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <div class="flex justify-center py-8">
+          <UPagination
+            v-model:page="page"
+            show-edges
+            :sibling-count="1"
+            :total="products?.meta?.total"
+            :items-per-page="products?.meta?.per_page"
+          />
         </div>
       </div>
     </div>

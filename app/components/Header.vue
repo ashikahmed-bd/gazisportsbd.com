@@ -19,23 +19,41 @@ const {
 } = useAsyncData("categories", async () => {
   return categoryStore.getCategories();
 });
+
+const settings = useSettings();
+
+const popup = computed(() => settings.value?.popup ?? {});
+
+const popupEnabled = computed(() => {
+  return (
+    popup.value.enabled === true ||
+    popup.value.enabled === 1 ||
+    popup.value.enabled === "1"
+  );
+});
 </script>
 
 <template>
-  <div class="hidden md:block bg-accent text-white text-xs">
+  <div v-if="popupEnabled" class="hidden md:block bg-accent text-white text-xs">
     <div class="max-w-7xl mx-auto flex h-10 items-center justify-between px-4">
-      <span>Free Shipping on orders over ৳1999</span>
+      <span>{{ popup.title }}</span>
+
       <span class="font-semibold text-yellow-400">
-        Get 10% OFF on your first order
-        <span class="text-white">WELCOME20</span>
+        {{ popup.subtitle }}
+
+        <span class="ml-2 text-white">
+          {{ popup.coupon_code }}
+        </span>
       </span>
 
       <div class="flex items-center gap-5">
-        <NuxtLink to="/" class="hover:text-primary"> Support </NuxtLink>
-
-        <NuxtLink to="/" class="hover:text-primary"> Track Order </NuxtLink>
-
-        <button class="hover:text-primary">EN</button>
+        <NuxtLink to="/support" class="text-white hover:opacity-90">
+          Support
+        </NuxtLink>
+        <NuxtLink to="/track-order" class="text-white hover:opacity-90">
+          Track Order
+        </NuxtLink>
+        <button class="text-white hover:opacity-90">EN</button>
       </div>
     </div>
   </div>

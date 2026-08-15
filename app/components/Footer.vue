@@ -1,4 +1,6 @@
 <script setup>
+const settings = useSettings();
+
 const quickLinks = [
   { name: "Home", to: "/" },
   { name: "Shop", to: "/shop" },
@@ -37,25 +39,78 @@ const socials = [
             alt="Gazi Sports BD"
             class="mb-5 h-12 w-auto"
           />
-          <p class="text-sm">
+          <p class="text-sm mb-4">
             Gazi Sports BD is your trusted destination for premium football
             jerseys, sportswear and accessories. We provide authentic products
             with fast delivery all over Bangladesh.
           </p>
-          <div class="mt-6 flex gap-3">
+
+          <div class="flex items-center gap-3">
             <a
-              v-for="social in socials"
-              :key="social.icon"
-              :href="social.url"
+              :href="settings.contact?.facebook"
               target="_blank"
+              rel="noopener noreferrer"
               class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 transition hover:bg-primary"
             >
-              <UIcon :name="social.icon" class="h-5 w-5 text-white" />
+              <UIcon
+                name="i-simple-icons-facebook"
+                class="h-5 w-5 text-white"
+              />
+            </a>
+
+            <a
+              :href="settings.contact?.instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 transition hover:bg-primary"
+            >
+              <UIcon
+                name="i-simple-icons-instagram"
+                class="h-5 w-5 text-white"
+              />
+            </a>
+
+            <a
+              :href="settings.contact?.youtube"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 transition hover:bg-primary"
+            >
+              <UIcon name="i-simple-icons-youtube" class="h-5 w-5 text-white" />
+            </a>
+
+            <a
+              :href="settings.contact?.tiktok"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 transition hover:bg-primary"
+            >
+              <UIcon name="i-simple-icons-tiktok" class="h-5 w-5 text-white" />
+            </a>
+
+            <a
+              :href="settings.contact?.twitter"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 transition hover:bg-primary"
+            >
+              <UIcon name="i-simple-icons-x" class="h-5 w-5 text-white" />
+            </a>
+
+            <a
+              :href="settings.contact?.linkedin"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 transition hover:bg-primary"
+            >
+              <UIcon
+                name="i-simple-icons-linkedin"
+                class="h-5 w-5 text-white"
+              />
             </a>
           </div>
         </div>
 
-        <!-- Quick Links -->
         <div>
           <h3
             class="mb-5 text-sm font-bold uppercase tracking-wider text-white"
@@ -75,8 +130,7 @@ const socials = [
           </ul>
         </div>
 
-        <!-- Customer Service -->
-        <div>
+        <div class="block">
           <h3
             class="mb-5 text-sm font-bold uppercase tracking-wider text-white"
           >
@@ -95,7 +149,6 @@ const socials = [
           </ul>
         </div>
 
-        <!-- Contact -->
         <div>
           <h3
             class="mb-5 text-sm font-bold uppercase tracking-wider text-white"
@@ -111,7 +164,7 @@ const socials = [
               />
 
               <a href="tel:+8801955213569" class="hover:text-white">
-                +880 1955-213569
+                {{ settings.contact?.phone }}
               </a>
             </li>
 
@@ -122,10 +175,10 @@ const socials = [
               />
 
               <a
-                href="mailto:gazisports07@gmail.com"
+                :href="`mailto:${settings.contact?.email}`"
                 class="break-all hover:text-white"
               >
-                gazisports07@gmail.com
+                {{ settings.contact?.email }}
               </a>
             </li>
 
@@ -136,9 +189,7 @@ const socials = [
               />
 
               <address class="not-italic leading-6">
-                Shop No. 202, 203 &amp; 204<br />
-                Somobay Twin Tower Market (1st Floor)<br />
-                Ramna, Gulistan, Dhaka-1000
+                {{ settings.contact?.address }}
               </address>
             </li>
           </ul>

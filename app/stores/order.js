@@ -9,10 +9,14 @@ export const useOrderStore = defineStore("order", {
   getters: {},
 
   actions: {
-    async all() {
+    async all(page) {
       const { $api } = useNuxtApp();
       try {
-        const response = await $api("/api/v1/orders");
+        const response = await $api("/api/v1/orders", {
+          query: {
+            page: page,
+          },
+        });
         this.orders = response;
         return response;
       } catch (error) {

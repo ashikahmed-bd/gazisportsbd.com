@@ -1,3 +1,5 @@
+import { page } from "#build/ui";
+
 export const useLeagueStore = defineStore("league", {
   state: () => ({
     loading: false,
@@ -9,10 +11,14 @@ export const useLeagueStore = defineStore("league", {
   getters: {},
 
   actions: {
-    async all() {
+    async all(page) {
       const { $api } = useNuxtApp();
       try {
-        const response = await $api(`/api/v1/leagues`);
+        const response = await $api(`/api/v1/leagues`, {
+          query: {
+            page: page,
+          },
+        });
         this.leagues = response;
         return response;
       } catch (error) {

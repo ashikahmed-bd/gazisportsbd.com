@@ -15,8 +15,8 @@ const authStore = useAuthStore();
             class="h-7 w-7"
           />
         </button>
-        <NuxtLink to="/admin/dashboard">
-          <NuxtImg src="/logo.png" alt="logo" class="h-10" />
+        <NuxtLink to="/" target="_blank">
+          <NuxtImg src="/logo.png" alt="logo" class="h-12 w-auto" />
         </NuxtLink>
       </div>
       <div class="flex items-center gap-3">

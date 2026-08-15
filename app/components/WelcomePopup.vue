@@ -1,4 +1,6 @@
 <script setup>
+const settings = useSettings();
+
 const showPopup = ref(false);
 const copied = ref(false);
 
@@ -21,8 +23,14 @@ const closePopup = () => {
 };
 
 const copyCoupon = async () => {
+  const couponCode = settings.popup?.coupon_code;
+
+  if (!couponCode) {
+    return;
+  }
+
   try {
-    await navigator.clipboard.writeText("WELCOME20");
+    await navigator.clipboard.writeText(couponCode);
     copied.value = true;
 
     setTimeout(() => {
@@ -78,7 +86,7 @@ onBeforeUnmount(() => {
             <div
               class="relative flex flex-col justify-center overflow-y-auto bg-white px-6 py-10"
             >
-              <div class="relative z-10">
+              <div v-if="settings.popup" class="relative z-10">
                 <div
                   class="mb-5 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary"
                 >
@@ -90,14 +98,14 @@ onBeforeUnmount(() => {
                   id="offer-popup-title"
                   class="text-3xl font-black leading-tight text-gray-950 sm:text-4xl"
                 >
-                  Get
-                  <span class="text-primary">20% OFF</span>
-                  Your First Order
+                  {{ settings.popup?.title }}
                 </h2>
 
+                <p class="mt-3 text-base font-bold text-primary">
+                  {{ settings.popup.subtitle }}
+                </p>
                 <p class="mt-4 text-sm leading-6 text-gray-600 sm:text-base">
-                  Use the coupon code below during checkout and enjoy an
-                  exclusive discount on your first purchase.
+                  {{ settings.popup.description }}
                 </p>
 
                 <div
@@ -113,7 +121,7 @@ onBeforeUnmount(() => {
                     <p
                       class="mt-1 text-xl font-black tracking-wide text-primary"
                     >
-                      WELCOME20
+                      {{ settings.popup.coupon_code }}
                     </p>
                   </div>
 

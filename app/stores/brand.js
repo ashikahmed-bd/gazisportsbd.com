@@ -9,10 +9,14 @@ export const useBrandStore = defineStore("brand", {
   getters: {},
 
   actions: {
-    async all() {
+    async all(page) {
       const { $api } = useNuxtApp();
       try {
-        const response = await $api(`/api/v1/brands`);
+        const response = await $api(`/api/v1/brands`, {
+          query: {
+            page: page,
+          },
+        });
         this.brands = response;
         return response;
       } catch (error) {

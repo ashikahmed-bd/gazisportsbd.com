@@ -3,12 +3,17 @@ definePageMeta({
   layout: "admin",
 });
 
+const page = ref(1);
 const clubStore = useClubStore();
 const { clubs } = storeToRefs(clubStore);
 
 const loadClubs = async () => {
-  await clubStore.all();
+  await clubStore.all(page.value);
 };
+
+watch(page, async () => {
+  await loadClubs();
+});
 
 onMounted(() => {
   loadClubs();
@@ -119,6 +124,16 @@ onMounted(() => {
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <div class="flex justify-center py-8">
+          <UPagination
+            v-model:page="page"
+            show-edges
+            :sibling-count="1"
+            :total="clubs?.meta?.total"
+            :items-per-page="clubs?.meta?.per_page"
+          />
         </div>
       </div>
     </div>

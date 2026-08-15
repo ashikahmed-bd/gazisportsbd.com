@@ -276,10 +276,7 @@ const submit = async () => {
                   </label>
 
                   <select
-                    @change="
-                      cartStore.shipping({ zone: form.state });
-                      refresh();
-                    "
+                    @change="updateShipping"
                     id="checkout-state"
                     v-model="form.state"
                     class="h-11 w-full rounded-xl border border-gray-300 bg-white px-4 text-sm outline-none transition focus:border-primary"

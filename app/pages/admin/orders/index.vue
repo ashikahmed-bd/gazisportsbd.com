@@ -3,11 +3,19 @@ definePageMeta({
   layout: "admin",
 });
 
+const page = ref(1);
 const orderStore = useOrderStore();
 const { orders } = storeToRefs(orderStore);
 
+const loadOrders = async () => {
+  await orderStore.all(page.value);
+};
+
+watch(page, async () => {
+  await loadOrders();
+});
 onMounted(async () => {
-  await orderStore.all();
+  loadOrders();
 });
 </script>
 
@@ -142,6 +150,16 @@ onMounted(async () => {
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <div class="flex justify-center py-8">
+          <UPagination
+            v-model:page="page"
+            show-edges
+            :sibling-count="1"
+            :total="orders?.meta?.total"
+            :items-per-page="orders?.meta?.per_page"
+          />
         </div>
       </div>
     </div>
