@@ -196,9 +196,8 @@ const socials = [
         </div>
       </div>
 
-      <!-- Bottom -->
       <div
-        class="flex flex-col items-center justify-between gap-4 border-t border-gray-800 py-6 text-center md:flex-row"
+        class="flex flex-col items-center justify-between gap-4 border-t border-gray-800 py-4 text-center md:flex-row"
       >
         <p class="text-sm text-gray-500">
           © {{ new Date().getFullYear() }} Gazi Sports. Developed by
@@ -214,27 +213,24 @@ const socials = [
 
         <div class="flex flex-wrap items-center gap-2">
           <NuxtImg
-            src="/logo/visa.png"
-            alt="Visa"
-            class="h-7 rounded border bg-white p-1"
-          />
-
-          <NuxtImg
-            src="/logo/mastercard.png"
-            alt="MasterCard"
-            class="h-7 rounded border bg-white p-1"
-          />
-
-          <NuxtImg
             src="/logo/bkash.png"
             alt="bKash"
-            class="h-7 rounded border bg-white p-1"
+            class="h-8 rounded border bg-white p-1"
           />
-
           <NuxtImg
             src="/logo/nagad.png"
             alt="Nagad"
-            class="h-7 rounded border bg-white p-1"
+            class="h-8 rounded border bg-white p-1"
+          />
+          <NuxtImg
+            src="/logo/visa.png"
+            alt="Visa"
+            class="h-8 rounded border bg-white p-1"
+          />
+          <NuxtImg
+            src="/logo/mastercard.png"
+            alt="MasterCard"
+            class="h-8 rounded border bg-white p-1"
           />
         </div>
       </div>
