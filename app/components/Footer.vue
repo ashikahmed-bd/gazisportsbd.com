@@ -201,7 +201,15 @@ const socials = [
         class="flex flex-col items-center justify-between gap-4 border-t border-gray-800 py-6 text-center md:flex-row"
       >
         <p class="text-sm text-gray-500">
-          © {{ new Date().getFullYear() }} Gazi Sports BD. All rights reserved.
+          © {{ new Date().getFullYear() }} Gazi Sports BD. Developed by
+          <a
+            href="https://www.ashikahmed.net/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary font-medium"
+          >
+            Ashik Ahmed </a
+          >.
         </p>
 
         <div class="flex flex-wrap items-center gap-2">

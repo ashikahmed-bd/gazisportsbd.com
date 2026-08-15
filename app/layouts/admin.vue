@@ -132,6 +132,24 @@ const authStore = useAuthStore();
             </NuxtLink>
 
             <NuxtLink
+              to="/admin/coupons"
+              active-class="bg-gray-100 text-primary font-medium"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"
+            >
+              <UIcon name="i-heroicons-ticket" class="h-5 w-5" />
+              Coupons
+            </NuxtLink>
+
+            <NuxtLink
+              to="/admin/pages"
+              active-class="bg-gray-100 text-primary font-medium"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"
+            >
+              <UIcon name="i-heroicons-document-text" class="h-5 w-5" />
+              Pages
+            </NuxtLink>
+
+            <NuxtLink
               to="/admin/settings"
               active-class="bg-gray-100 text-primary font-medium"
               class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100"
