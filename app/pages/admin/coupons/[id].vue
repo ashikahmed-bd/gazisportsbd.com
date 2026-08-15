@@ -33,6 +33,10 @@ const submit = async () => {
 onMounted(() => {
   loadCoupon();
 });
+
+useSeoMeta({
+  title: "Edit Coupons",
+});
 </script>
 
 <template>

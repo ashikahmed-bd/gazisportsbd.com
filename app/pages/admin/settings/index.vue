@@ -75,6 +75,10 @@ const savePopup = async () => {
 onMounted(() => {
   loadSettings();
 });
+
+useSeoMeta({
+  title: "Settings",
+});
 </script>
 
 <template>

@@ -24,6 +24,10 @@ watch(page, async () => {
 onMounted(() => {
   loadProducts();
 });
+
+useSeoMeta({
+  title: "All Products",
+});
 </script>
 
 <template>

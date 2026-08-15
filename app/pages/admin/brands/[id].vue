@@ -50,6 +50,10 @@ const submit = async () => {
 onMounted(() => {
   loadBrand();
 });
+
+useSeoMeta({
+  title: "Edit Brands",
+});
 </script>
 
 <template>

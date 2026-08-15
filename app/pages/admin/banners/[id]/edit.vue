@@ -61,6 +61,10 @@ const bannerUpload = async () => {
 
   await bannerStore.image(route.params.id, payload);
 };
+
+useSeoMeta({
+  title: "Edit Banner",
+});
 </script>
 
 <template>

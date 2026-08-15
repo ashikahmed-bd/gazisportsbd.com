@@ -64,6 +64,10 @@ onMounted(() => {
   loadLeagues();
   loadClub();
 });
+
+useSeoMeta({
+  title: "Edit Clubs",
+});
 </script>
 
 <template>

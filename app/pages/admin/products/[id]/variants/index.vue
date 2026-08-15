@@ -42,6 +42,10 @@ onMounted(async () => {
   const response = await productStore.show(route.params.id);
   form.variants = response.variants;
 });
+
+useSeoMeta({
+  title: "Product Variants",
+});
 </script>
 
 <template>

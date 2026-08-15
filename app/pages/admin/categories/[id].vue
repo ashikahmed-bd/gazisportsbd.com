@@ -54,6 +54,10 @@ onMounted(() => {
   loadCategory();
   loadCategories();
 });
+
+useSeoMeta({
+  title: "Edit Category",
+});
 </script>
 
 <template>

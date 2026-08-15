@@ -18,6 +18,10 @@ watch(page, async () => {
 onMounted(() => {
   loadClubs();
 });
+
+useSeoMeta({
+  title: "All Clubs",
+});
 </script>
 
 <template>

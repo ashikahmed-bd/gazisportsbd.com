@@ -52,6 +52,10 @@ const submit = async () => {
 onMounted(() => {
   loadLeague();
 });
+
+useSeoMeta({
+  title: "Edit Leagues",
+});
 </script>
 
 <template>

@@ -23,6 +23,10 @@ const updateStatus = async () => {
 onMounted(async () => {
   await orderStore.show(route.params.id);
 });
+
+useSeoMeta({
+  title: "View Orders",
+});
 </script>
 
 <template>
@@ -66,8 +70,8 @@ onMounted(async () => {
                             :alt="item.name"
                             class="size-14 rounded object-cover"
                           />
-                          <div>
-                            <h3 class="font-semibold">
+                          <div class="max-w-2xs">
+                            <h3 class="font-semibold truncate">
                               {{ item.name }}
                             </h3>
 

@@ -18,6 +18,10 @@ const form = reactive({
 const submit = async () => {
   await couponStore.store(form);
 };
+
+useSeoMeta({
+  title: "Create Coupons",
+});
 </script>
 
 <template>

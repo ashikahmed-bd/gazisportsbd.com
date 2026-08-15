@@ -9,6 +9,10 @@ const { banners } = storeToRefs(bannerStore);
 onMounted(async () => {
   await bannerStore.all();
 });
+
+useSeoMeta({
+  title: "All Banner",
+});
 </script>
 
 <template>

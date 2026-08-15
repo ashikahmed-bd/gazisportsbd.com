@@ -26,6 +26,10 @@ const deleteCoupon = async (coupon) => {
   }
   await loadCoupons();
 };
+
+useSeoMeta({
+  title: "All Coupons",
+});
 </script>
 
 <template>

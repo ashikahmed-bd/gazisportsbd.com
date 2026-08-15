@@ -18,6 +18,10 @@ watch(page, async () => {
 onMounted(() => {
   loadLeagues();
 });
+
+useSeoMeta({
+  title: "All Leagues",
+});
 </script>
 
 <template>

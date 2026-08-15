@@ -63,6 +63,10 @@ onMounted(() => {
   loadBrands();
   loadClubs();
 });
+
+useSeoMeta({
+  title: "Create Product",
+});
 </script>
 
 <template>

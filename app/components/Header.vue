@@ -82,7 +82,6 @@ const popupEnabled = computed(() => {
               [
                 {
                   label: 'All ' + item.name,
-                  icon: 'i-lucide-folder',
                   to: {
                     path: '/shop',
                     query: {
@@ -93,7 +92,6 @@ const popupEnabled = computed(() => {
               ],
               item.children.map((child) => ({
                 label: child.name,
-                icon: 'i-lucide-tag',
                 to: {
                   path: '/shop',
                   query: {

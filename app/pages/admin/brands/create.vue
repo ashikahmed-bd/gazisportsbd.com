@@ -27,6 +27,10 @@ const submit = async () => {
     active: true,
   });
 };
+
+useSeoMeta({
+  title: "Create Brands",
+});
 </script>
 
 <template>

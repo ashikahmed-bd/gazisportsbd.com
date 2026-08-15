@@ -18,6 +18,10 @@ const deleteCategory = async (category) => {
 onMounted(() => {
   loadCategories();
 });
+
+useSeoMeta({
+  title: "Categories",
+});
 </script>
 
 <template>

@@ -29,6 +29,10 @@ const submit = async () => {
 onMounted(async () => {
   await categoryStore.search();
 });
+
+useSeoMeta({
+  title: "Create Category",
+});
 </script>
 
 <template>

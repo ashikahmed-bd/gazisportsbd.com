@@ -33,6 +33,10 @@ const loadLeagues = async () => {
 onMounted(() => {
   loadLeagues();
 });
+
+useSeoMeta({
+  title: "Create Clubs",
+});
 </script>
 
 <template>

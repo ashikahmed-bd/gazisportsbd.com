@@ -14,8 +14,13 @@ const loadOrders = async () => {
 watch(page, async () => {
   await loadOrders();
 });
+
 onMounted(async () => {
   loadOrders();
+});
+
+useSeoMeta({
+  title: "All Orders",
 });
 </script>
 

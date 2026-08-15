@@ -156,6 +156,10 @@ onMounted(async () => {
   loadBrands();
   loadClubs();
 });
+
+useSeoMeta({
+  title: "Update Product",
+});
 </script>
 
 <template>
