@@ -74,7 +74,7 @@ const popupEnabled = computed(() => {
         <NuxtImg src="/logo.png" class="h-10 w-auto" />
       </a>
 
-      <nav class="hidden lg:flex items-center gap-6">
+      <nav class="hidden lg:flex items-center gap-3">
         <template v-for="item in categories?.data" :key="item.id">
           <UDropdownMenu
             v-if="item.children?.length"
@@ -130,7 +130,9 @@ const popupEnabled = computed(() => {
       </nav>
 
       <div class="flex items-center gap-4">
-        <a href="/cart" class="relative hover:text-primary">
+        <SearchModal />
+
+        <a href="/cart" class="relative transition hover:text-primary">
           <UIcon name="i-lucide-shopping-cart" class="h-5 w-5" />
           <span
             class="absolute -right-2 -top-2 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white"
@@ -138,7 +140,12 @@ const popupEnabled = computed(() => {
             {{ cartStore.cart?.items_count ?? 0 }}
           </span>
         </a>
-        <a href="/auth/login" class="relative hover:text-primary">
+
+        <a
+          href="/auth/login"
+          class="relative transition hover:text-primary"
+          aria-label="Account"
+        >
           <UIcon name="i-lucide-user" class="h-5 w-5" />
         </a>
       </div>

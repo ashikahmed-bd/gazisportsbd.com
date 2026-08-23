@@ -21,7 +21,7 @@ export const useProductStore = defineStore("product", {
         this.products = response;
         return response;
       } catch (error) {
-        this.errors = error?.response?._data?.errors;
+        this.errors = error?.response?._data;
         throw error;
       }
     },

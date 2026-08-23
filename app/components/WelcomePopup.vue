@@ -23,14 +23,29 @@ const closePopup = () => {
 };
 
 const copyCoupon = async () => {
-  const couponCode = settings.popup?.coupon_code;
+  const couponCode = settings.value?.popup?.coupon_code;
 
   if (!couponCode) {
     return;
   }
 
   try {
-    await navigator.clipboard.writeText(couponCode);
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(couponCode);
+    } else {
+      const textarea = document.createElement("textarea");
+      textarea.value = couponCode;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+
+      textarea.focus();
+      textarea.select();
+
+      document.execCommand("copy");
+      textarea.remove();
+    }
+
     copied.value = true;
 
     setTimeout(() => {
@@ -38,6 +53,7 @@ const copyCoupon = async () => {
     }, 2000);
   } catch (error) {
     console.error("Coupon copy failed:", error);
+    copied.value = false;
   }
 };
 
