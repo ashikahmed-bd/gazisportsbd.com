@@ -91,38 +91,38 @@ onBeforeUnmount(() => {
         <!-- Products -->
         <div
           v-else-if="products.length"
-          class="max-h-96 divide-y divide-gray-100 overflow-y-auto"
+          class="max-h-96 divide-y divide-border overflow-y-auto"
         >
           <NuxtLink
             v-for="product in products"
             :key="product.id"
             :to="`/product/${product.slug}`"
-            class="flex items-center gap-3 p-3 transition hover:bg-gray-50"
+            class="flex items-center gap-3 p-3 transition"
             @click="closeModal"
           >
             <!-- Product Image -->
             <NuxtImg
               :src="product.cover_url"
               :alt="product.name"
-              class="size-14 shrink-0 rounded-lg object-cover"
+              class="size-14 shrink-0 rounded object-cover"
             />
 
             <!-- Product Info -->
             <div class="min-w-0 flex-1">
-              <p class="truncate font-medium text-gray-900">
+              <h4 class="truncate font-medium">
                 {{ product.name }}
-              </p>
+              </h4>
 
               <div class="mt-1 flex items-center gap-2">
                 <!-- Current Price -->
-                <span class="font-semibold text-gray-900">
+                <span class="font-semibold">
                   ৳{{ product.price }}
                 </span>
 
                 <!-- Base Price -->
                 <span
                   v-if="product.has_discount"
-                  class="text-sm text-gray-400 line-through"
+                  class="text-sm line-through"
                 >
                   ৳{{ product.base_price }}
                 </span>
@@ -130,7 +130,7 @@ onBeforeUnmount(() => {
                 <!-- Discount -->
                 <span
                   v-if="product.has_discount"
-                  class="text-xs font-medium text-red-500"
+                  class="text-xs font-medium"
                 >
                   -{{ product.discount_percentage }}%
                 </span>
