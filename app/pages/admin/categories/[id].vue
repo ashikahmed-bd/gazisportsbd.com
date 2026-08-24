@@ -15,6 +15,7 @@ const form = reactive({
   meta_title: "",
   meta_description: "",
   meta_keywords: "",
+  sort_order: 0,
   active: true,
 });
 
@@ -29,7 +30,8 @@ const loadCategory = async () => {
     meta_title: category.meta_title ?? "",
     meta_description: category.meta_description ?? "",
     meta_keywords: category.meta_keywords ?? "",
-    active: category.active ?? false,
+    sort_order: category.sort_order,
+    active: category.active,
   });
 };
 
@@ -117,6 +119,12 @@ useSeoMeta({
               label="Meta Keywords"
               v-model="form.meta_keywords"
               placeholder="football, jersey, club"
+            />
+
+            <BaseInput
+              label="Sort Order"
+              v-model="form.sort_order"
+              placeholder="Enter order number"
             />
 
             <BaseSelect
