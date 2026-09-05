@@ -76,6 +76,7 @@ useSeoMeta({
             v-model="form.slug"
             placeholder="Enter page slug"
             :error="errors?.slug"
+            :disabled="true"
           />
 
           <BaseEditor

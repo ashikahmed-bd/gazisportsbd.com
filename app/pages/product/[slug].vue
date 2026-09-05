@@ -19,7 +19,30 @@ const {
 
 const quantity = ref(1);
 
-const selectedVariant = ref(null);
+const selectedAttributes = reactive({});
+
+const selectAttribute = (attribute, option) => {
+  selectedAttributes[attribute] = option.slug;
+};
+
+const selectedVariant = computed(() => {
+  if (!product.value?.variants?.length) {
+    return null;
+  }
+
+  if (!Object.keys(selectedAttributes).length) {
+    return null;
+  }
+
+  return product.value.variants.find((variant) => {
+    return Object.entries(selectedAttributes).every(([attribute, option]) => {
+      return variant.options.some(
+        (item) =>
+          item.attribute.slug === attribute && item.option.slug === option,
+      );
+    });
+  });
+});
 
 const addToCart = async (product) => {
   await cartStore.add({
@@ -50,9 +73,9 @@ const buyNow = async (product) => {
     </template>
     <template v-else-if="product">
       <SeoMeta
-        :title="product.meta_title"
-        :description="product.meta_description"
-        :keywords="product.meta_keywords"
+        :title="product.meta_title ?? product.name"
+        :description="product.meta_description ?? product.summary"
+        :keywords="product.meta_keywords ?? product.name"
       />
       <div class="bg-gray-50">
         <div class="bg-white border-b border-gray-200">
@@ -77,7 +100,7 @@ const buyNow = async (product) => {
           </div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 py-6 sm:py-8">
+        <div class="max-w-7xl mx-auto px-4 py-6">
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10">
             <div class="w-full">
               <ProductGallery
@@ -89,45 +112,84 @@ const buyNow = async (product) => {
               />
             </div>
 
-            <div class="flex flex-col gap-4 sm:gap-5">
+            <div class="flex flex-col gap-4">
               <div class="block">
                 <h1
                   class="text-xl sm:text-2xl font-bold text-title leading-snug"
                 >
                   {{ product.name }}
                 </h1>
-                <p class="text-xs sm:text-sm text-body">
+                <p class="text-sm text-body">
                   {{ product.brand?.name }} &middot; {{ product.club?.name }}
                 </p>
               </div>
 
               <div class="flex items-center gap-3 flex-wrap">
                 <span class="text-2xl sm:text-3xl font-bold text-body">
-                  ৳{{ product.price }}
+                  {{ $currency(selectedVariant?.price ?? product.price) }}
                 </span>
 
                 <span
-                  v-if="product.has_discount"
+                  v-if="selectedVariant?.base_price ?? product.has_discount"
                   class="text-lg text-gray-400 line-through"
                 >
-                  ৳{{ product.base_price }}
+                  {{
+                    $currency(selectedVariant?.base_price ?? product.base_price)
+                  }}
                 </span>
 
                 <span
                   v-if="product.has_discount"
                   class="bg-red-100 text-red-600 text-xs font-semibold px-2 py-1 rounded"
                 >
-                  -{{ product.discount_percentage }}%
+                  -{{
+                    Math.round(
+                      (1 -
+                        Number(selectedVariant?.price ?? product.price) /
+                          Number(
+                            selectedVariant?.base_price ?? product.base_price,
+                          )) *
+                        100,
+                    )
+                  }}%
                 </span>
+                <div v-if="selectedVariant" class="text-sm">
+                  <span v-if="selectedVariant.stock > 0" class="text-green-600">
+                    In Stock: {{ selectedVariant.stock }}
+                  </span>
+
+                  <span v-else class="text-red-600"> Out of Stock </span>
+                </div>
               </div>
 
-              <MDC :value="product.highlights" class="prose max-w-none" />
+              <MDC :value="product.summary" class="prose max-w-none" />
 
-              <ProductVariant
-                :options="product.options"
-                :variants="product.variants"
-                @select="selectedVariant = $event"
-              />
+              <div
+                v-for="attribute in product.attributes"
+                :key="attribute.id"
+                class="space-y-2"
+              >
+                <h3 class="text-sm font-semibold">
+                  {{ attribute.name }}
+                </h3>
+
+                <div class="flex flex-wrap gap-2">
+                  <button
+                    v-for="option in attribute.options"
+                    :key="option.id"
+                    type="button"
+                    @click="selectAttribute(attribute.slug, option)"
+                    :class="[
+                      'rounded cursor-pointer border px-4 py-2 text-sm font-medium transition',
+                      selectedAttributes[attribute.slug] === option.slug
+                        ? 'border-black bg-black text-white'
+                        : 'border-border bg-white text-gray-700 hover:border-primary',
+                    ]"
+                  >
+                    {{ option.name }}
+                  </button>
+                </div>
+              </div>
 
               <div class="space-y-4">
                 <div
