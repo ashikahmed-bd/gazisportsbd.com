@@ -43,7 +43,7 @@ const form = reactive({
   name: "",
   slug: "",
 
-  highlights: "",
+  summary: "",
   description: "",
   options: [],
   base_price: "",
@@ -131,7 +131,7 @@ const loadProduct = async (id) => {
   form.name = product.name ?? "";
   form.slug = product.slug ?? "";
 
-  form.highlights = product.highlights ?? "";
+  form.summary = product.summary ?? "";
   form.description = product.description ?? "";
 
   form.options = Object.entries(product.options ?? {}).map(
@@ -198,10 +198,10 @@ useSeoMeta({
               />
 
               <BaseTextarea
-                label="Highlights"
-                v-model="form.highlights"
+                label="Summary"
+                v-model="form.summary"
                 error=""
-                placeholder="Enter highlights"
+                placeholder="Enter summary"
                 :rows="6"
               />
 
@@ -255,13 +255,6 @@ useSeoMeta({
                 v-model="form.price"
                 error=""
                 placeholder="Selling Price"
-              />
-
-              <BaseInput
-                label="Stock"
-                v-model="form.stock"
-                error=""
-                placeholder="Stock"
               />
 
               <BaseSelect

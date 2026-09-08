@@ -60,6 +60,7 @@ onBeforeUnmount(() => {
       color="neutral"
       variant="ghost"
       aria-label="Search"
+      class="text-dark"
     />
 
     <template #body>
@@ -115,23 +116,15 @@ onBeforeUnmount(() => {
 
               <div class="mt-1 flex items-center gap-2">
                 <!-- Current Price -->
-                <span class="font-semibold">
-                  ৳{{ product.price }}
-                </span>
+                <span class="font-semibold"> ৳{{ product.price }} </span>
 
                 <!-- Base Price -->
-                <span
-                  v-if="product.has_discount"
-                  class="text-sm line-through"
-                >
+                <span v-if="product.has_discount" class="text-sm line-through">
                   ৳{{ product.base_price }}
                 </span>
 
                 <!-- Discount -->
-                <span
-                  v-if="product.has_discount"
-                  class="text-xs font-medium"
-                >
+                <span v-if="product.has_discount" class="text-xs font-medium">
                   -{{ product.discount_percentage }}%
                 </span>
               </div>

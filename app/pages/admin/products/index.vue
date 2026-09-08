@@ -4,12 +4,13 @@ definePageMeta({
 });
 
 const page = ref(1);
+const search = ref("");
 
 const productStore = useProductStore();
 const { products } = storeToRefs(productStore);
 
-const loadProducts = async () => {
-  await productStore.all(page.value);
+const loadProducts = () => {
+  productStore.all(page.value, search.value);
 };
 
 const deleteProduct = async (product) => {
@@ -17,8 +18,12 @@ const deleteProduct = async (product) => {
   await loadProducts();
 };
 
-watch(page, async () => {
-  await loadProducts();
+watch([page, search], () => {
+  if (search.value) {
+    page.value = 1;
+  }
+
+  loadProducts();
 });
 
 onMounted(() => {
@@ -46,6 +51,7 @@ useSeoMeta({
           <div class="relative">
             <input
               type="text"
+              v-model="search"
               placeholder="Search products..."
               class="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 pr-10 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:w-72"
             />

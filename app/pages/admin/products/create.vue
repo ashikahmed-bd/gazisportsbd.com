@@ -33,7 +33,7 @@ const form = reactive({
   name: "",
   slug: "",
 
-  highlights: null,
+  summary: null,
   description: null,
 
   base_price: 0,
@@ -108,11 +108,11 @@ useSeoMeta({
               />
 
               <BaseTextarea
-                label="Highlights"
-                v-model="form.highlights"
+                label="Summary"
+                v-model="form.summary"
                 error=""
                 :required="true"
-                placeholder="Enter highlights"
+                placeholder="Enter summary"
                 :rows="6"
               />
 
