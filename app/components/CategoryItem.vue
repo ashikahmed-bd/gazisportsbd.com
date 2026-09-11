@@ -20,7 +20,7 @@ const toggle = (e) => {
       class="flex items-center justify-between hover:bg-gray-100 rounded-lg py-2 px-3"
     >
       <a
-        :href="`/shop?categories/${item.slug}`"
+        :href="`/shop?category=${item.slug}`"
         class="flex items-center gap-2 w-1/2"
       >
         <NuxtImg
