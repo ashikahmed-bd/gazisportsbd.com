@@ -15,6 +15,13 @@ watch(page, async () => {
   await loadOrders();
 });
 
+const deleteOrder = async (order) => {
+  if (confirm("Are you sure you want to delete order?")) {
+    await orderStore.delete(order);
+  }
+  await loadOrders();
+};
+
 onMounted(async () => {
   loadOrders();
 });
@@ -143,7 +150,13 @@ useSeoMeta({
                       View
                     </NuxtLink>
 
-                    <button class="action__delete">Delete</button>
+                    <button
+                      type="button"
+                      @click="deleteOrder(order.order_no)"
+                      class="action__delete"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </td>
               </tr>

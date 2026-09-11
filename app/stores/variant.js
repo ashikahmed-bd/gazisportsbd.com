@@ -7,6 +7,15 @@ export const useVariantStore = defineStore("variant", {
   getters: {},
 
   actions: {
+    async all(product) {
+      const { $api } = useNuxtApp();
+      try {
+        return await $api(`/api/v1/products/${product}/variants`);
+      } catch (error) {
+        throw error;
+      }
+    },
+
     async store(product, payload) {
       const { $api } = useNuxtApp();
       const toast = useToast();

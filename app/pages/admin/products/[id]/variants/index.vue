@@ -12,7 +12,6 @@ const variantStore = useVariantStore();
 
 const { attributes } = storeToRefs(attributeStore);
 const { product } = storeToRefs(productStore);
-const { errors } = storeToRefs(variantStore);
 
 const selectedOptions = ref({});
 const variants = ref([]);
@@ -31,7 +30,7 @@ const selectedOptionCount = computed(() => {
 const isSelected = (attributeId, optionId) => {
   return (
     selectedOptions.value[attributeId]?.some(
-      (option) => option.id === optionId,
+      (option) => Number(option.id) === Number(optionId),
     ) ?? false
   );
 };
@@ -45,7 +44,9 @@ const toggleOption = (attribute, option) => {
 
   const options = selectedOptions.value[attributeId];
 
-  const index = options.findIndex((item) => item.id === option.id);
+  const index = options.findIndex(
+    (item) => Number(item.id) === Number(option.id),
+  );
 
   if (index === -1) {
     options.push(option);
@@ -94,7 +95,7 @@ const generateVariants = () => {
     ([attributeId, options]) => {
       return options.map((option) => ({
         attribute_id: Number(attributeId),
-        attribute_option_id: option.id,
+        attribute_option_id: Number(option.id),
         option,
       }));
     },
@@ -104,13 +105,17 @@ const generateVariants = () => {
 
   variants.value = combinations.map((combination, index) => ({
     id: index + 1,
+
     name: generateVariantName(combination),
     sku: generateSku(combination),
-    price: product.value?.price ?? 0,
-    base_price: product.value?.base_price ?? 0,
+
+    price: Number(product.value?.price ?? 0),
+    base_price: Number(product.value?.base_price ?? 0),
+
     stock: 0,
     low_stock_threshold: 5,
     is_active: true,
+
     options: combination.map((item) => ({
       attribute_id: item.attribute_id,
       attribute_option_id: item.attribute_option_id,
@@ -134,14 +139,15 @@ const saveVariants = async () => {
       description: "Please generate variants first.",
       type: "error",
     });
+
     return;
   }
 
   const payload = {
     options: Object.entries(selectedOptions.value).flatMap(
-      ([attributeId, options]) =>
+      ([attribute, options]) =>
         options.map((option) => ({
-          attribute_id: Number(attributeId),
+          attribute_id: Number(attribute),
           attribute_option_id: Number(option.id),
         })),
     ),
@@ -155,7 +161,7 @@ const saveVariants = async () => {
       low_stock_threshold: Number(variant.low_stock_threshold),
       is_active: Boolean(variant.is_active),
 
-      options: variant.options.map((option) => ({
+      options: (variant.options ?? []).map((option) => ({
         attribute_id: Number(option.attribute_id),
         attribute_option_id: Number(option.attribute_option_id),
       })),
@@ -165,9 +171,72 @@ const saveVariants = async () => {
   await variantStore.store(route.params.id, payload);
 };
 
+const loadVariants = async () => {
+  const response = await variantStore.all(route.params.id);
+
+  variants.value = response.map((variant) => ({
+    id: variant.id,
+    product_id: variant.product_id,
+    sku: variant.sku ?? "",
+    name: variant.name ?? "",
+    price: Number(variant.price ?? 0),
+    base_price: Number(variant.base_price ?? 0),
+    stock: Number(variant.stock ?? 0),
+    low_stock_threshold: Number(variant.low_stock_threshold ?? 0),
+    is_active: Boolean(variant.is_active),
+    options: (variant.options ?? []).map((option) => ({
+      id: option.id,
+      variant_id: option.variant_id,
+      attribute_id: Number(option.attribute_id),
+      attribute_option_id: Number(option.attribute_option_id),
+    })),
+  }));
+
+  selectedOptions.value = {};
+
+  response.forEach((variant) => {
+    (variant.options ?? []).forEach((option) => {
+      const attributeId = Number(option.attribute_id);
+      const optionId = Number(option.attribute_option_id);
+
+      const attribute = attributeList.value.find(
+        (item) => Number(item.id) === attributeId,
+      );
+
+      if (!attribute) {
+        return;
+      }
+
+      const attributeOption = attribute.options.find(
+        (item) => Number(item.id) === optionId,
+      );
+
+      if (!attributeOption) {
+        return;
+      }
+
+      if (!selectedOptions.value[attributeId]) {
+        selectedOptions.value[attributeId] = [];
+      }
+
+      const exists = selectedOptions.value[attributeId].some(
+        (item) => Number(item.id) === optionId,
+      );
+
+      if (!exists) {
+        selectedOptions.value[attributeId].push(attributeOption);
+      }
+    });
+  });
+};
+
 onMounted(async () => {
-  await productStore.show(route.params.id);
-  await attributeStore.all("");
+  await Promise.all([
+    productStore.show(route.params.id),
+    attributeStore.all(""),
+  ]);
+
+  await loadVariants();
 });
 
 useSeoMeta({

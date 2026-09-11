@@ -56,5 +56,21 @@ export const useOrderStore = defineStore("order", {
         this.loading = false;
       }
     },
+
+    async delete(order) {
+      const { $api } = useNuxtApp();
+      const toast = useToast();
+      try {
+        const response = await $api(`/api/v1/orders/${order}`, {
+          method: "DELETE",
+        });
+        toast.add({
+          title: response.message,
+        });
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
   },
 });
