@@ -1,5 +1,6 @@
 <script setup>
 const appStore = useAppStore();
+const promoStore = usePromoStore();
 
 const {
   data: home,
@@ -8,6 +9,10 @@ const {
   refresh,
 } = await useAsyncData("home", async () => {
   return await appStore.getHome();
+});
+
+const { data: promo } = await useAsyncData("home-middle", async () => {
+  return await promoStore.getByPosition("middle");
 });
 </script>
 
@@ -194,13 +199,34 @@ const {
             </NuxtLink>
           </div>
 
-          <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            <ProductCard
-              v-for="product in home?.featured"
-              :key="product.id"
-              :product="product"
+          <UCarousel
+            v-slot="{ item }"
+            :items="home?.featured"
+            loop
+            wheel-gestures
+            :autoplay="{ delay: 2000 }"
+            :ui="{
+              item: 'basis-1/2 md:basis-1/3 lg:basis-1/5',
+            }"
+          >
+            <ProductCard :product="item" />
+          </UCarousel>
+        </div>
+      </section>
+
+      <section v-if="promo" class="w-full">
+        <div class="max-w-7xl mx-auto px-4">
+          <NuxtLink
+            :to="promo.url"
+            class="group block overflow-hidden rounded-lg"
+          >
+            <img
+              :src="promo.image_url"
+              :alt="promo.name"
+              class="block h-auto w-full object-cover transition-transform duration-500 group-hover:scale-[1.01]"
+              loading="lazy"
             />
-          </div>
+          </NuxtLink>
         </div>
       </section>
 
@@ -220,13 +246,19 @@ const {
               <UIcon name="i-lucide-arrow-right" class="size-5" />
             </a>
           </div>
-          <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            <ProductCard
-              v-for="product in home?.trending"
-              :key="product.id"
-              :product="product"
-            />
-          </div>
+
+          <UCarousel
+            v-slot="{ item }"
+            :items="home?.trending"
+            loop
+            wheel-gestures
+            :autoplay="{ delay: 2500 }"
+            :ui="{
+              item: 'basis-1/2 md:basis-1/3 lg:basis-1/5',
+            }"
+          >
+            <ProductCard :product="item" />
+          </UCarousel>
         </div>
       </section>
 
