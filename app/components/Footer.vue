@@ -35,7 +35,7 @@ const socials = [
       <div class="grid gap-10 pb-12 md:grid-cols-2 lg:grid-cols-4 py-12">
         <div>
           <NuxtImg
-            src="/logo.png"
+            :src="`${useRuntimeConfig().public.siteUrl}/logo.png`"
             alt="Gazi Sports BD"
             class="mb-5 h-12 w-auto"
           />

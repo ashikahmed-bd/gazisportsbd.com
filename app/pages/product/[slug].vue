@@ -49,6 +49,7 @@ const addToCart = async (product) => {
     product_id: product.id,
     variant_id: selectedVariant.value?.id,
     quantity: Number(quantity.value),
+    options: selectedAttributes,
   });
 };
 
@@ -57,6 +58,7 @@ const buyNow = async (product) => {
     product_id: product.id,
     variant_id: selectedVariant.value?.id,
     quantity: Number(quantity.value),
+    options: selectedAttributes,
   });
 
   navigateTo("/checkout");
@@ -77,6 +79,7 @@ const buyNow = async (product) => {
         :description="product.meta_description ?? product.summary"
         :keywords="product.meta_keywords ?? product.name"
       />
+
       <div class="bg-gray-50">
         <div class="bg-white border-b border-gray-200">
           <div class="max-w-7xl mx-auto px-4 py-3 overflow-x-auto">

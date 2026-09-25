@@ -31,6 +31,9 @@ const popupEnabled = computed(() => {
     popup.value.enabled === "1"
   );
 });
+
+
+
 </script>
 
 <template>
@@ -71,7 +74,7 @@ const popupEnabled = computed(() => {
         />
       </button>
       <a href="/" class="shrink-0">
-        <NuxtImg src="/logo.png" class="h-10 w-auto" />
+        <NuxtImg :src="`${useRuntimeConfig().public.siteUrl}/logo.png`" class="h-full w-auto" />
       </a>
 
       <nav class="hidden lg:flex items-center gap-3">

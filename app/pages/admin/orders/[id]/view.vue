@@ -8,6 +8,12 @@ const route = useRoute();
 const orderStore = useOrderStore();
 const { order } = storeToRefs(orderStore);
 
+const loadOrder = async () => {
+  const response = await orderStore.show(route.params.id);
+  
+  form.status = response.data.status;
+};
+
 const form = reactive({
   status: order.value?.status ?? "pending",
 });
@@ -18,10 +24,12 @@ const updateStatus = async () => {
   toast.add({
     title: response.message,
   });
+
+  await loadOrder();
 };
 
-onMounted(async () => {
-  await orderStore.show(route.params.id);
+onMounted(() => {
+  loadOrder();
 });
 
 useSeoMeta({

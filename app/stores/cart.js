@@ -35,6 +35,9 @@ export const useCartStore = defineStore("cart", {
         return response.data;
       } catch (error) {
         this.errors = error?.response?._data?.errors;
+        toast.add({
+          title: error?.response?._data?.message,
+        });
         throw error;
       } finally {
         this.loading = false;
