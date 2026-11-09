@@ -83,15 +83,9 @@ useSeoMeta({
                               {{ item.name }}
                             </h3>
 
-                            <div v-if="item.options">
-                              <p
-                                v-for="(value, key) in item.options"
-                                :key="key"
-                                class="text-sm text-gray-500 capitalize"
-                              >
-                                {{ key }}: {{ value }}
-                              </p>
-                            </div>
+                            <p class="text-sm text-gray-500 capitalize">
+                              {{ item.variant?.name }}
+                            </p>
                           </div>
                         </div>
                       </td>

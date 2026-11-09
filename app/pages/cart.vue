@@ -106,24 +106,8 @@ const applyCoupon = async () => {
                       <h3 class="text-lg font-semibold text-gray-900">
                         {{ item.product?.name }}
                       </h3>
-
-                      <div
-                        v-if="item.options && Object.keys(item.options).length"
-                        class="space-x-2"
-                      >
-                        <span
-                          v-for="(value, key) in item.options"
-                          :key="key"
-                          class="text-sm"
-                        >
-                          {{ key }}:
-                          <span class="font-semibold text-title">
-                            {{ value }}
-                          </span>
-                        </span>
-                      </div>
-                      <p v-else class="text-sm text-gray-500">
-                        No options selected
+                      <p class="text-sm text-gray-500">
+                        {{ item.variant?.name }}
                       </p>
                     </div>
 
