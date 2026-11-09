@@ -10,7 +10,7 @@ const { order } = storeToRefs(orderStore);
 
 const loadOrder = async () => {
   const response = await orderStore.show(route.params.id);
-  
+
   form.status = response.data.status;
 };
 
@@ -83,7 +83,7 @@ useSeoMeta({
                               {{ item.name }}
                             </h3>
 
-                            <p class="text-sm text-gray-500 capitalize">
+                            <p class="text-sm text-body capitalize">
                               {{ item.variant?.name }}
                             </p>
                           </div>
